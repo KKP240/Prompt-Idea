@@ -58,7 +58,6 @@ export default function Home() {
               <PromptCard
                 key={p.id}
                 prompt={p}
-                onClick={() => navigate(`/prompt/${p.id}`)}
               />
             ))}
           {prompts.length === 0 && (
