@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="w-full border-t bg-white py-6 mt-12">
-      <div className="max-w-6xl mx-auto px-6 text-center text-sm text-gray-500">
-        <div className="mb-2">PromptCraft — Professional prompt library</div>
+    <footer className="w-full border-t border-gray-300 py-6 mt-12">
+      <div className="max-w-275 mx-auto px-6 text-center text-sm text-gray-500">
+        <div className="mb-2 text-blue-500">PromptCraft — Professional prompt library</div>
         <div>© {new Date().getFullYear()} PromptCraft · Built with ❤️</div>
       </div>
     </footer>

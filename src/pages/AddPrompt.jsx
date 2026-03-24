@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { db } from "../firebase/config";
 import { collection, addDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function AddPrompt() {
   const [title, setTitle] = useState("");
