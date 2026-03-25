@@ -1,8 +1,9 @@
-import { db } from "../firebase/config";
-import { doc, getDoc } from "firebase/firestore";
+import { db } from '../firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
 
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 export default function PromptDetail() {
   const { id } = useParams();
@@ -10,11 +11,11 @@ export default function PromptDetail() {
 
   const [prompt, setPrompt] = useState(null);
   const [values, setValues] = useState({});
-  const [generated, setGenerated] = useState("");
+  const [generated, setGenerated] = useState('');
 
   useEffect(() => {
     const fetchPrompt = async () => {
-      const ref = doc(db, "prompts", id);
+      const ref = doc(db, 'prompts', id);
       const snap = await getDoc(ref);
       if (snap.exists()) setPrompt(snap.data());
     };
@@ -22,18 +23,19 @@ export default function PromptDetail() {
     fetchPrompt();
   }, [id]);
 
-  const normalizeVar = v => (typeof v === 'string' ? v.replace(/^"+|"+$/g, '').trim() : v);
+  const normalizeVar = (v) =>
+    typeof v === 'string' ? v.replace(/^"+|"+$/g, '').trim() : v;
 
   const generate = () => {
-    if (!prompt) return "";
+    if (!prompt) return '';
     let text = prompt.template || '';
 
     const vars = (prompt.variables || []).map(normalizeVar);
 
-    vars.forEach(v => {
+    vars.forEach((v) => {
       const key = v;
       const val = values[key] ?? `{${key}}`;
-      text = text.replace(new RegExp(`\\{${key}\\}`, "g"), val);
+      text = text.replace(new RegExp(`\\{${key}\\}`, 'g'), val);
     });
 
     return text;
@@ -46,22 +48,40 @@ export default function PromptDetail() {
 
   if (!prompt) return <p className="text-center py-20">Loading...</p>;
 
+  const copyMessage = function () {
+    navigator.clipboard.writeText(generated);
+
+    toast.success('Prompt copied to clipboard.', {
+      position: 'top-center',
+      style: {
+        color: 'oklch(62.3% 0.214 259.815)',
+      },
+    });
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
-      <button onClick={() => navigate(-1)} className="mb-4 text-sm text-gray-500">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 text-sm text-gray-500"
+      >
         ⬅ Back
       </button>
 
       <header className="mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-900">{prompt.title}</h1>
-        <p className="text-sm text-gray-500 mt-1">{prompt.description || prompt.category}</p>
+        <h1 className="text-3xl font-extrabold text-gray-900">
+          {prompt.title}
+        </h1>
+        <p className="text-sm text-gray-500 mt-1">
+          {prompt.description || prompt.category}
+        </p>
       </header>
 
       <section className="bg-white p-6 rounded-2xl shadow-md mb-6">
         <h2 className="text-lg font-semibold mb-4">Customize</h2>
 
         <div className="grid md:grid-cols-2 gap-4">
-          {(prompt.variables || []).map(raw => {
+          {(prompt.variables || []).map((raw) => {
             const v = normalizeVar(raw);
             return (
               <label key={v} className="block">
@@ -69,7 +89,9 @@ export default function PromptDetail() {
                 <input
                   placeholder={v}
                   value={values[v] || ''}
-                  onChange={e => setValues(prev => ({ ...prev, [v]: e.target.value }))}
+                  onChange={(e) =>
+                    setValues((prev) => ({ ...prev, [v]: e.target.value }))
+                  }
                   className="w-full border-gray-200 border bg-gray-50 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </label>
@@ -83,7 +105,7 @@ export default function PromptDetail() {
           <h3 className="font-mono text-sm text-green-300">Preview</h3>
           <div className="space-x-2">
             <button
-              onClick={() => navigator.clipboard.writeText(generated)}
+              onClick={copyMessage}
               className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 text-sm"
             >
               📋 Copy
@@ -98,7 +120,9 @@ export default function PromptDetail() {
         />
       </section>
 
-      <footer className="text-sm text-gray-500 mt-2">Rendered prompt updates as you type.</footer>
+      <footer className="text-sm text-gray-500 mt-2">
+        Rendered prompt updates as you type.
+      </footer>
     </div>
   );
 }

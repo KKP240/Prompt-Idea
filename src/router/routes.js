@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 
 import Home from '../pages/Home';
-import MainLayout from '../components/MainLayout';
+import MainLayout from '../components/layout/MainLayout';
 import AddPrompt from '../pages/AddPrompt';
 import PromptDetail from '../pages/PromptDetail';
 

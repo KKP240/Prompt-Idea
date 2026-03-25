@@ -4,7 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 import { Flame } from 'lucide-react';
-import PromptCard from '../components/PromptCard';
+import PromptCard from '../components/prompt/PromptCard';
 import ErrorMessage from '../components/ErrorMessage';
 import Loading from '../components/Loading';
 

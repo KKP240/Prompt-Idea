@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { Toaster } from "sonner";
 
 export default function MainLayout() {
   return (
@@ -13,6 +14,9 @@ export default function MainLayout() {
       <main className="max-w-275 w-full mx-auto min-h-screen">
         <Outlet />
       </main>
+
+      {/* Toaster */}
+      <Toaster />
 
       {/* Footer */}
       <Footer />
