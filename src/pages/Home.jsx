@@ -2,6 +2,7 @@ import { db } from '../firebase/config';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router';
 
 import { Flame } from 'lucide-react';
 import PromptCard from '../components/prompt/PromptCard';
@@ -14,6 +15,8 @@ export default function Home() {
   const PAGE_SIZE = 12;
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState({ success: true, message: '' });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCategory = searchParams.get('category') || '';
 
   useEffect(() => {
     const fetchPrompts = async () => {
@@ -42,6 +45,42 @@ export default function Home() {
         Popular Prompts
       </h1>
 
+      {prompts.length > 0 && (
+        (() => {
+          const cats = Array.from(new Set(prompts.map(p => p.category).filter(Boolean)));
+          cats.sort((a, b) => a.localeCompare(b, 'en') || a.localeCompare(b, 'th'));
+          return (
+            <div className="mt-4">
+              <div className="rounded-2xl overflow-x-auto whitespace-nowrap py-3 px-2" style={{ background: '' }}>
+                <div className="flex gap-3 px-2 py-2">
+                  <button
+                    onClick={() => { setSearchParams({}); setPage(1); }}
+                    className={`px-4 py-1 rounded-full text-sm ${selectedCategory === '' ? 'ring-2 ring-offset-2 ring-white' : 'bg-white/30'}`}
+                  >
+                    All
+                  </button>
+                  {cats.map((c, idx) => {
+                    const hue = Math.round((idx / Math.max(1, cats.length - 1)) * 270);
+                    const bg = `hsl(${hue} 100% 40%)`;
+                    return (
+                      <button
+                        key={c}
+                        onClick={() => { setSearchParams({ category: c }); setPage(1); }}
+                        className="px-4 py-1 rounded-full text-sm text-white"
+                        style={{ background: bg }}
+                      >
+                        {c}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          
+          );
+        })()
+      )}
+
       {/* Prompts Loading... */}
       {isLoaded && <Loading />}
 
@@ -53,16 +92,20 @@ export default function Home() {
         <>
           <div className="grid md:grid-cols-3 gap-6">
             {prompts.length > 0 ? (
-              prompts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((p) => (
-                <PromptCard key={p.id} prompt={p} />
-              ))
+              (() => {
+                const filtered = selectedCategory ? prompts.filter((x) => x.category === selectedCategory) : prompts;
+                const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+                return pageItems.map((p) => <PromptCard key={p.id} prompt={p} />);
+              })()
             ) : (
               <p className="text-gray-500 font-light">No prompt available.</p>
             )}
           </div>
 
           {/* Pagination */}
-          {prompts.length > PAGE_SIZE && (
+          {(() => {
+            const filteredTotal = selectedCategory ? prompts.filter((x) => x.category === selectedCategory).length : prompts.length;
+            return filteredTotal > PAGE_SIZE && (
             <div className="mt-8 flex items-center justify-center gap-2">
               <button onClick={() => setPage(1)} disabled={page === 1} className="px-3 py-1 rounded border">
                 &lt;&lt;
@@ -72,7 +115,7 @@ export default function Home() {
               </button>
 
               {(() => {
-                const total = Math.ceil(prompts.length / PAGE_SIZE);
+                const total = Math.ceil(filteredTotal / PAGE_SIZE);
                 const pages = [];
                 const start = Math.max(1, page - 2);
                 const end = Math.min(total, page + 2);
@@ -98,14 +141,15 @@ export default function Home() {
                 });
               })()}
 
-              <button onClick={() => setPage((p) => Math.min(Math.ceil(prompts.length / PAGE_SIZE), p + 1))} disabled={page === Math.ceil(prompts.length / PAGE_SIZE)} className="px-3 py-1 rounded border">
+              <button onClick={() => setPage((p) => Math.min(Math.ceil(filteredTotal / PAGE_SIZE), p + 1))} disabled={page === Math.ceil(filteredTotal / PAGE_SIZE)} className="px-3 py-1 rounded border">
                 &gt;
               </button>
-              <button onClick={() => setPage(Math.ceil(prompts.length / PAGE_SIZE))} disabled={page === Math.ceil(prompts.length / PAGE_SIZE)} className="px-3 py-1 rounded border">
+              <button onClick={() => setPage(Math.ceil(filteredTotal / PAGE_SIZE))} disabled={page === Math.ceil(filteredTotal / PAGE_SIZE)} className="px-3 py-1 rounded border">
                 &gt;&gt;
               </button>
             </div>
-          )}
+            );
+          })()}
         </>
       )}
     </div>
