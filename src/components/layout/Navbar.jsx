@@ -1,6 +1,6 @@
 import { CirclePlus, House, Search } from 'lucide-react';
 import { Link } from 'react-router';
-import { SearchPrompt } from '../SearchPrompt';
+import { SearchPrompt } from './SearchPrompt';
 
 export default function Navbar() {
   return (

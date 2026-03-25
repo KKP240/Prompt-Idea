@@ -1,14 +1,18 @@
-import { db } from '../firebase/config';
+import { db } from '@/firebase/config';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 import { Flame } from 'lucide-react';
-import PromptCard from '../components/prompt/PromptCard';
-import ErrorMessage from '../components/ErrorMessage';
-import Loading from '../components/Loading';
-import BasicPagination from '../components/BasicPagination';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Loading from '@/components/common/Loading';
+import ErrorMessage from '@/components/common/ErrorMessage';
+import PromptCard from '@/components/prompt/PromptCard';
+import BasicPagination from '@/components/common/BasicPagination';
+import CategoryTab from '@/components/home/CategoryTab';
+import Heading from '@/components/typography/Heading';
+import Paragraph from '@/components/typography/Paragraph';
+
+const PAGE_SIZE = 12;
 
 export default function Home() {
   const [prompts, setPrompts] = useState([]);
@@ -16,8 +20,7 @@ export default function Home() {
   const [error, setError] = useState({ success: true, message: '' });
 
   // Config Page
-  const [searchParams, setSearchParams] = useSearchParams();
-  const PAGE_SIZE = 12;
+  const [searchParams] = useSearchParams();
   const selectedCategory = searchParams.get('category') || '';
   const currentPage = Number(searchParams.get('page')) || 1;
 
@@ -32,10 +35,7 @@ export default function Home() {
       try {
         setIsLoaded(true);
 
-        const q = query(
-          collection(db, 'prompts'),
-          orderBy('metrics.likes', 'desc'),
-        );
+        const q = query(collection(db, 'prompts'), orderBy('metrics.likes', 'desc'));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -53,71 +53,33 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-14">
-      <h1 className="text-[2.2rem] font-extrabold mb-10 flex items-center gap-2">
+    <div className="px-6 py-14">
+      <Heading className="mb-10 flex items-center gap-2">
         <Flame className="size-8" />
         Popular Prompts
-      </h1>
+      </Heading>
 
-      {prompts.length > 0 &&
-        (() => {
-          // ดึง Category แบบไม่ซ้ำ และเรียงตามตัวอักษร
-          const cats = Array.from(
-            new Set(prompts.map((p) => p.category).filter(Boolean)),
-          );
-          cats.sort(
-            (a, b) => a.localeCompare(b, 'en') || a.localeCompare(b, 'th'),
-          );
-
-          // กำหนดค่า Tab ปัจจุบัน (ถ้าไม่มี selectedCategory ให้เป็น 'all')
-          const activeTab = selectedCategory || 'all';
+      {/* Tab Categories */}
+      {prompts.length > 0 && (
+        () => {
+          const cats = Array.from(new Set(prompts.map((p) => p.category)
+            .filter(Boolean)))
+            .sort((a, b) => a.localeCompare(b, 'en') || a.localeCompare(b, 'th'));
 
           return (
-            <div className="mt-4">
-              <Tabs value={activeTab}>
-                {/* ครอบด้วย div เพื่อให้เลื่อนซ้ายขวาได้ในจอมือถือ */}
-                <div className="overflow-x-auto overflow-y-hidden">
-                  <TabsList
-                    variant="line"
-                    className="w-full justify-start border-b mb-6"
-                  >
-                    {/* Tab: All */}
-                    <TabsTrigger
-                      value="all"
-                      onClick={() => {
-                        setSearchParams({ page: '1' });
-                      }}
-                      // เพิ่มคลาสเปลี่ยนสีตรงนี้
-                      className="data-[state=active]:text-blue-500"
-                    >
-                      All
-                    </TabsTrigger>
-
-                    {/* Tabs: Categories */}
-                    {cats.map((c) => (
-                      <TabsTrigger
-                        key={c}
-                        value={c}
-                        onClick={() => {
-                          setSearchParams({ category: c, page: '1' });
-                        }}
-                        // เพิ่มคลาสเปลี่ยนสีตรงนี้ด้วย
-                        className="data-[state=active]:text-blue-500"
-                      >
-                        {c}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </div>
-              </Tabs>
-            </div>
+            <CategoryTab 
+              activeTab={selectedCategory || 'all'} 
+              categories={cats} 
+              className='mt-4' 
+            />
           );
-        })()}
+        }
+      )()}
 
-      {/* Prompts Loading... */}
+      {/* Prompts Loading */}
       {isLoaded && <Loading />}
 
-      {/* Error Fetching Prompts... */}
+      {/* Error Fetching Prompts */}
       {!isLoaded && !error.success && <ErrorMessage message={error.message} />}
 
       {/* Render Prompts */}
@@ -129,14 +91,12 @@ export default function Home() {
                 .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
                 .map((p) => <PromptCard key={p.id} prompt={p} />)
             ) : (
-              <p className="text-gray-500 font-light">No prompt available.</p>
+              <Paragraph>No prompt available.</Paragraph>
             )}
           </div>
 
           {/* Pagination */}
-          {filteredPrompts.length > PAGE_SIZE && (
-            <BasicPagination totalPages={totalPages} />
-          )}
+          {filteredPrompts.length > PAGE_SIZE && <BasicPagination totalPages={totalPages} />}
         </>
       )}
     </div>
