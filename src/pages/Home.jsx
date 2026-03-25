@@ -13,6 +13,7 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState({ success: true, message: '' });
 
+  // Fetch Prompts
   useEffect(() => {
     const fetchPrompts = async () => {
       try {
@@ -22,7 +23,6 @@ export default function Home() {
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setPrompts(data);
-        console.log(data)
       } catch (err) {
         setError({ success: false, message: err.message });
       } finally {
@@ -35,8 +35,8 @@ export default function Home() {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-14">
-      <h1 className="text-3xl font-extrabold mb-10 flex items-center gap-2">
-        <Flame />
+      <h1 className="text-[2.2rem] font-extrabold mb-10 flex items-center gap-2">
+        <Flame className='size-8' />
         Popular Prompts
       </h1>
 
