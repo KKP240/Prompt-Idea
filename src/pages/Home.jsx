@@ -15,10 +15,13 @@ export default function Home() {
   const [error, setError] = useState({ success: true, message: '' });
 
   // Config Page
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const PAGE_SIZE = 12;
+  const selectedCategory = searchParams.get('category') || '';
   const currentPage = Number(searchParams.get('page')) || 1;
-  const totalPages = Math.ceil(prompts.length / PAGE_SIZE);
+
+  const filteredPrompts = selectedCategory ? prompts.filter((p) => p.category === selectedCategory) : prompts;
+  const totalPages = Math.ceil(filteredPrompts.length / PAGE_SIZE);
 
   // Fetch Prompts
   useEffect(() => {
@@ -62,7 +65,7 @@ export default function Home() {
               <div className="rounded-2xl overflow-x-auto whitespace-nowrap py-3 px-2" style={{ background: '' }}>
                 <div className="flex gap-3 px-2 py-2">
                   <button
-                    onClick={() => { setSearchParams({}); setPage(1); }}
+                    onClick={() => { setSearchParams({ page: '1' }); }}
                     className={`px-4 py-1 rounded-full text-sm ${selectedCategory === '' ? 'ring-2 ring-offset-2 ring-white' : 'bg-white/30'}`}
                   >
                     All
@@ -73,7 +76,7 @@ export default function Home() {
                     return (
                       <button
                         key={c}
-                        onClick={() => { setSearchParams({ category: c }); setPage(1); }}
+                        onClick={() => { setSearchParams({ category: c, page: '1' }); }}
                         className="px-4 py-1 rounded-full text-sm text-white"
                         style={{ background: bg }}
                       >
@@ -99,8 +102,8 @@ export default function Home() {
       {error.success && !isLoaded && (
         <>
           <div className="grid md:grid-cols-2 gap-6 mb-15">
-            {prompts.length > 0 ? (
-              prompts
+            {filteredPrompts.length > 0 ? (
+              filteredPrompts
                 .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
                 .map((p) => <PromptCard key={p.id} prompt={p} />)
             ) : (
@@ -109,7 +112,7 @@ export default function Home() {
           </div>
 
           {/* Pagination */}
-          {prompts.length > PAGE_SIZE && (
+          {filteredPrompts.length > PAGE_SIZE && (
             <BasicPagination totalPages={totalPages} />
           )}
         </>
