@@ -1,5 +1,5 @@
 import { db } from '../firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 import { useEffect, useState } from 'react';
 
@@ -18,11 +18,9 @@ export default function Home() {
       try {
         setIsLoaded(true);
 
-        const snapshot = await getDocs(collection(db, 'prompts'));
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const q = query(collection(db, 'prompts'), orderBy('metrics.likes', 'desc'));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setPrompts(data);
         console.log(data)
       } catch (err) {
