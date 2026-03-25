@@ -2,10 +2,9 @@ import { db } from '../firebase/config';
 import { collection, getDocs } from 'firebase/firestore';
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 
-import PromptCard from '../components/PromptCard';
 import { Flame } from 'lucide-react';
+import PromptCard from '../components/prompt/PromptCard';
 import ErrorMessage from '../components/ErrorMessage';
 import Loading from '../components/Loading';
 
@@ -13,8 +12,6 @@ export default function Home() {
   const [prompts, setPrompts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState({ success: true, message: '' });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPrompts = async () => {
@@ -27,6 +24,7 @@ export default function Home() {
           ...doc.data(),
         }));
         setPrompts(data);
+        console.log(data)
       } catch (err) {
         setError({ success: false, message: err.message });
       } finally {
