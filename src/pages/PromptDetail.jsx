@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
 import { doc, getDoc } from "firebase/firestore";
+
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 
 export default function PromptDetail() {
