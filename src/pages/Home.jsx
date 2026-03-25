@@ -10,6 +10,8 @@ import Loading from '../components/Loading';
 
 export default function Home() {
   const [prompts, setPrompts] = useState([]);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 12;
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState({ success: true, message: '' });
 
@@ -48,18 +50,63 @@ export default function Home() {
 
       {/* Render Prompts */}
       {error.success && !isLoaded && (
-        <div className="grid md:grid-cols-3 gap-6">
-          {prompts.length > 0 &&
-            prompts.map((p) => (
-              <PromptCard
-                key={p.id}
-                prompt={p}
-              />
-            ))}
-          {prompts.length === 0 && (
-            <p className="text-gray-500 font-light">No prompt available.</p>
+        <>
+          <div className="grid md:grid-cols-3 gap-6">
+            {prompts.length > 0 ? (
+              prompts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((p) => (
+                <PromptCard key={p.id} prompt={p} />
+              ))
+            ) : (
+              <p className="text-gray-500 font-light">No prompt available.</p>
+            )}
+          </div>
+
+          {/* Pagination */}
+          {prompts.length > PAGE_SIZE && (
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <button onClick={() => setPage(1)} disabled={page === 1} className="px-3 py-1 rounded border">
+                &lt;&lt;
+              </button>
+              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1 rounded border">
+                &lt;
+              </button>
+
+              {(() => {
+                const total = Math.ceil(prompts.length / PAGE_SIZE);
+                const pages = [];
+                const start = Math.max(1, page - 2);
+                const end = Math.min(total, page + 2);
+                if (start > 1) pages.push(1);
+                if (start > 2) pages.push('left-ellipsis');
+                for (let i = start; i <= end; i++) pages.push(i);
+                if (end < total - 1) pages.push('right-ellipsis');
+                if (end < total) pages.push(total);
+
+                return pages.map((p, idx) => {
+                  if (p === 'left-ellipsis' || p === 'right-ellipsis') return (
+                    <div key={p + idx} className="px-2">...</div>
+                  );
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => setPage(p)}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center ${p === page ? 'bg-indigo-600 text-white' : 'bg-white border'}`}
+                    >
+                      {p}
+                    </button>
+                  );
+                });
+              })()}
+
+              <button onClick={() => setPage((p) => Math.min(Math.ceil(prompts.length / PAGE_SIZE), p + 1))} disabled={page === Math.ceil(prompts.length / PAGE_SIZE)} className="px-3 py-1 rounded border">
+                &gt;
+              </button>
+              <button onClick={() => setPage(Math.ceil(prompts.length / PAGE_SIZE))} disabled={page === Math.ceil(prompts.length / PAGE_SIZE)} className="px-3 py-1 rounded border">
+                &gt;&gt;
+              </button>
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );
