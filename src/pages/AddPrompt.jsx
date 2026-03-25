@@ -58,6 +58,7 @@ export default function AddPrompt() {
         status,
         metrics: { likes: 0, uses: 0, rating: 0 },
         likedBy: [],
+        usedBy: [],
         featured,
         version,
         createdAt: serverTimestamp(),

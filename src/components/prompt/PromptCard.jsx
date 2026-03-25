@@ -14,7 +14,10 @@ export default function PromptCard({ prompt }) {
           <div className="text-xs text-gray-400 mt-4">{variables}</div>
         )}
         <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
-          <div>❤️ {prompt.metrics?.likes ?? 0}</div>
+          <div className="flex items-center gap-3">
+            <div>❤️ {prompt.metrics?.likes ?? 0}</div>
+            <div>🔁 {prompt.metrics?.uses ?? 0}</div>
+          </div>
         </div>
       </article>
     </Link>

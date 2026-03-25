@@ -14,6 +14,8 @@ export default function PromptDetail() {
   const [generated, setGenerated] = useState('');
   const [liked, setLiked] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
+  const [used, setUsed] = useState(false);
+  const [useLoading, setUseLoading] = useState(false);
 
   // get a client identifier: prefer IP, else use stored client id
   const getClientId = async () => {
@@ -96,6 +98,40 @@ export default function PromptDetail() {
         color: 'oklch(62.3% 0.214 259.815)',
       },
     });
+
+    // register a "use" (only first time per client)
+    (async () => {
+      if (useLoading || used) return;
+      setUseLoading(true);
+      try {
+        const clientId = await getClientId();
+        const ref = doc(db, 'prompts', id);
+        // fetch latest to avoid surprises
+        const s = await getDoc(ref);
+        if (!s.exists()) return;
+        const data = s.data();
+        const already = (data.usedBy || []).includes(clientId);
+        if (!already) {
+          await updateDoc(ref, {
+            usedBy: arrayUnion(clientId),
+            'metrics.uses': increment(1),
+          });
+
+          setPrompt((p) => ({
+            ...p,
+            usedBy: [...(p.usedBy || []), clientId],
+            metrics: { ...(p.metrics || {}), uses: (p.metrics?.uses || 0) + 1 },
+          }));
+          setUsed(true);
+        } else {
+          setUsed(true);
+        }
+      } catch (e) {
+        console.error('Use registration error', e);
+      } finally {
+        setUseLoading(false);
+      }
+    })();
   };
 
   const handleLike = async () => {
