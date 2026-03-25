@@ -1,5 +1,6 @@
-import { CirclePlus, House } from 'lucide-react';
+import { CirclePlus, House, Search } from 'lucide-react';
 import { Link } from 'react-router';
+import { SearchPrompt } from '../SearchPrompt';
 
 export default function Navbar() {
   return (
@@ -19,6 +20,7 @@ export default function Navbar() {
           >
             <House className="text-blue-500" />
           </Link>
+          <SearchPrompt />
           <Link
             to="/add"
             className="bg-blue-500 text-white shadow-lg px-4 py-2 rounded-full flex items-center gap-2 font-semibold transition-all duration-300 hover:bg-blue-600"

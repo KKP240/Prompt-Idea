@@ -8,6 +8,7 @@ import PromptCard from '../components/prompt/PromptCard';
 import ErrorMessage from '../components/ErrorMessage';
 import Loading from '../components/Loading';
 import BasicPagination from '../components/BasicPagination';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function Home() {
   const [prompts, setPrompts] = useState([]);
@@ -20,7 +21,9 @@ export default function Home() {
   const selectedCategory = searchParams.get('category') || '';
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  const filteredPrompts = selectedCategory ? prompts.filter((p) => p.category === selectedCategory) : prompts;
+  const filteredPrompts = selectedCategory
+    ? prompts.filter((p) => p.category === selectedCategory)
+    : prompts;
   const totalPages = Math.ceil(filteredPrompts.length / PAGE_SIZE);
 
   // Fetch Prompts
@@ -56,41 +59,60 @@ export default function Home() {
         Popular Prompts
       </h1>
 
-      {prompts.length > 0 && (
+      {prompts.length > 0 &&
         (() => {
-          const cats = Array.from(new Set(prompts.map(p => p.category).filter(Boolean)));
-          cats.sort((a, b) => a.localeCompare(b, 'en') || a.localeCompare(b, 'th'));
+          // ดึง Category แบบไม่ซ้ำ และเรียงตามตัวอักษร
+          const cats = Array.from(
+            new Set(prompts.map((p) => p.category).filter(Boolean)),
+          );
+          cats.sort(
+            (a, b) => a.localeCompare(b, 'en') || a.localeCompare(b, 'th'),
+          );
+
+          // กำหนดค่า Tab ปัจจุบัน (ถ้าไม่มี selectedCategory ให้เป็น 'all')
+          const activeTab = selectedCategory || 'all';
+
           return (
             <div className="mt-4">
-              <div className="rounded-2xl overflow-x-auto whitespace-nowrap py-3 px-2" style={{ background: '' }}>
-                <div className="flex gap-3 px-2 py-2">
-                  <button
-                    onClick={() => { setSearchParams({ page: '1' }); }}
-                    className={`px-4 py-1 rounded-full text-sm ${selectedCategory === '' ? 'ring-2 ring-offset-2 ring-white' : 'bg-white/30'}`}
+              <Tabs value={activeTab}>
+                {/* ครอบด้วย div เพื่อให้เลื่อนซ้ายขวาได้ในจอมือถือ */}
+                <div className="overflow-x-auto overflow-y-hidden">
+                  <TabsList
+                    variant="line"
+                    className="w-full justify-start border-b mb-6"
                   >
-                    All
-                  </button>
-                  {cats.map((c, idx) => {
-                    const hue = Math.round((idx / Math.max(1, cats.length - 1)) * 270);
-                    const bg = `hsl(${hue} 100% 40%)`;
-                    return (
-                      <button
+                    {/* Tab: All */}
+                    <TabsTrigger
+                      value="all"
+                      onClick={() => {
+                        setSearchParams({ page: '1' });
+                      }}
+                      // เพิ่มคลาสเปลี่ยนสีตรงนี้
+                      className="data-[state=active]:text-blue-500"
+                    >
+                      All
+                    </TabsTrigger>
+
+                    {/* Tabs: Categories */}
+                    {cats.map((c) => (
+                      <TabsTrigger
                         key={c}
-                        onClick={() => { setSearchParams({ category: c, page: '1' }); }}
-                        className="px-4 py-1 rounded-full text-sm text-white"
-                        style={{ background: bg }}
+                        value={c}
+                        onClick={() => {
+                          setSearchParams({ category: c, page: '1' });
+                        }}
+                        // เพิ่มคลาสเปลี่ยนสีตรงนี้ด้วย
+                        className="data-[state=active]:text-blue-500"
                       >
                         {c}
-                      </button>
-                    );
-                  })}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
                 </div>
-              </div>
+              </Tabs>
             </div>
-          
           );
-        })()
-      )}
+        })()}
 
       {/* Prompts Loading... */}
       {isLoaded && <Loading />}
