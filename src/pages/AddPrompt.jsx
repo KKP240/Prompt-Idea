@@ -2,6 +2,7 @@ import { useState } from "react";
 import { db } from "../firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router";
+import { useLanguage } from '@/lib/LanguageProvider';
 
 export default function AddPrompt() {
   const [title, setTitle] = useState("");
@@ -27,6 +28,7 @@ export default function AddPrompt() {
   ]);
 
   const navigate = useNavigate();
+  const { lang } = useLanguage();
 
   const addVariableRow = () => {
     setVariables((v) => [...v, { name: "", type: "string", placeholder: "", required: false }]);
@@ -42,7 +44,8 @@ export default function AddPrompt() {
 
   const handleSubmit = async () => {
     try {
-        await addDoc(collection(db, "prompts"), {
+        const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts'
+        await addDoc(collection(db, collectionName), {
         title,
         slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
         description,

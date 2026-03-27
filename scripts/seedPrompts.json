@@ -1,0 +1,351 @@
+[
+  {
+    "title": "Advanced Product Description",
+    "description": "High-converting ecommerce product description",
+    "template": "Write a {length} product description for {product}. Highlight key benefits, emotional appeal, and unique selling points. Target audience: {audience}. Tone: {tone}. Include a strong closing CTA.",
+    "variables": [
+      { "name": "length", "type": "string", "placeholder": "short|medium|long", "required": true },
+      { "name": "product", "type": "string", "placeholder": "wireless earbuds", "required": true },
+      { "name": "audience", "type": "string", "placeholder": "fitness enthusiasts", "required": true },
+      { "name": "tone", "type": "string", "placeholder": "premium, energetic", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["ecommerce", "copywriting"],
+    "examples": ["Write a long product description for wireless earbuds for runners."],
+    "featured": true
+  },
+  {
+    "title": "Long-form Blog Writer",
+    "description": "Generate structured blog content",
+    "template": "Write a detailed blog post about {topic}. Include introduction, H2 sections, examples, and conclusion. Target keyword: {keyword}. Audience: {audience}. Tone: {tone}.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "AI productivity tools", "required": true },
+      { "name": "keyword", "type": "string", "placeholder": "best AI tools", "required": true },
+      { "name": "audience", "type": "string", "placeholder": "entrepreneurs", "required": true },
+      { "name": "tone", "type": "string", "placeholder": "informative", "required": true }
+    ],
+    "category": "content",
+    "tags": ["blog", "seo"],
+    "examples": ["Write blog about remote work tools"]
+  },
+  {
+    "title": "Twitter Thread Generator",
+    "description": "Create engaging threads",
+    "template": "Create a 10-tweet thread about {topic}. Start with a strong hook, keep tweets concise, and end with a CTA.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "building startups", "required": true }
+    ],
+    "category": "social",
+    "tags": ["twitter", "thread"],
+    "examples": ["Create thread about habits"]
+  },
+  {
+    "title": "Cold Email Generator",
+    "description": "Write cold outreach email",
+    "template": "Write a cold email to {audience} introducing {product}. Mention pain point: {pain}. Keep it short and persuasive. End with CTA.",
+    "variables": [
+      { "name": "audience", "type": "string", "placeholder": "startup founders", "required": true },
+      { "name": "product", "type": "string", "placeholder": "CRM tool", "required": true },
+      { "name": "pain", "type": "string", "placeholder": "manual tracking", "required": true }
+    ],
+    "category": "sales",
+    "tags": ["email", "sales"],
+    "examples": ["Write cold email for SaaS"]
+  },
+  {
+    "title": "Landing Page Copy (Full)",
+    "description": "Full landing page structure",
+    "template": "Create full landing page copy for {product}. Include: Headline, Subheadline, Features, Benefits, Social Proof, FAQ, and CTA. Target audience: {audience}. Tone: {tone}.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "AI assistant", "required": true },
+      { "name": "audience", "type": "string", "placeholder": "developers", "required": true },
+      { "name": "tone", "type": "string", "placeholder": "modern", "required": true }
+    ],
+    "category": "landing",
+    "tags": ["landing-page"],
+    "examples": ["Create landing page for SaaS"],
+    "featured": true
+  },
+  {
+    "title": "YouTube Script",
+    "description": "Video script generator",
+    "template": "Write a YouTube script about {topic}. Include hook, intro, main content, and outro. Keep it engaging.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "AI tools", "required": true }
+    ],
+    "category": "video",
+    "tags": ["youtube"],
+    "examples": ["Script about productivity"]
+  },
+  {
+    "title": "Startup Idea Generator",
+    "description": "Generate startup ideas",
+    "template": "Generate 5 startup ideas in the {industry} space. Include problem, solution, and target users.",
+    "variables": [
+      { "name": "industry", "type": "string", "placeholder": "healthtech", "required": true }
+    ],
+    "category": "ideas",
+    "tags": ["startup"],
+    "examples": ["Ideas in fintech"]
+  },
+  {
+    "title": "Meeting Summary",
+    "description": "Summarize notes",
+    "template": "Summarize meeting notes into key points, decisions, and action items: {notes}",
+    "variables": [
+      { "name": "notes", "type": "string", "placeholder": "paste notes", "required": true }
+    ],
+    "category": "productivity",
+    "tags": ["summary"],
+    "examples": ["Summarize meeting"]
+  },
+  {
+    "title": "Resume Enhancer",
+    "description": "Improve resume",
+    "template": "Rewrite this resume bullet to be more impactful: {bullet}",
+    "variables": [
+      { "name": "bullet", "type": "string", "placeholder": "worked on project", "required": true }
+    ],
+    "category": "career",
+    "tags": ["resume"],
+    "examples": ["Improve resume"]
+  },
+  {
+    "title": "Ad Copy Generator",
+    "description": "Generate ads",
+    "template": "Write 5 ad variations for {product}. Focus on {benefit}. Audience: {audience}.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "fitness app", "required": true },
+      { "name": "benefit", "type": "string", "placeholder": "lose weight", "required": true },
+      { "name": "audience", "type": "string", "placeholder": "young adults", "required": true }
+    ],
+    "category": "ads",
+    "tags": ["ads"],
+    "examples": ["Ad for app"]
+  },
+
+  {
+    "title": "FAQ Generator",
+    "description": "Generate FAQ section",
+    "template": "Create FAQ for {product}. Include 5 questions and answers.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "mobile app", "required": true }
+    ],
+    "category": "support",
+    "tags": ["faq"],
+    "examples": ["FAQ for SaaS"]
+  },
+  {
+    "title": "Brand Voice Guide",
+    "description": "Define brand tone",
+    "template": "Create brand voice guide for {brand}. Include tone, style, dos and don'ts.",
+    "variables": [
+      { "name": "brand", "type": "string", "placeholder": "startup", "required": true }
+    ],
+    "category": "branding",
+    "tags": ["brand"],
+    "examples": ["Brand guide"]
+  },
+  {
+    "title": "Bug Fix Rewrite",
+    "description": "Clean bug report",
+    "template": "Rewrite bug report clearly: {bug}",
+    "variables": [
+      { "name": "bug", "type": "string", "placeholder": "error login", "required": true }
+    ],
+    "category": "dev",
+    "tags": ["bug"],
+    "examples": ["Fix bug report"]
+  },
+  {
+    "title": "Course Outline",
+    "description": "Create course plan",
+    "template": "Create course outline for {topic}. Include modules and lessons.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "React", "required": true }
+    ],
+    "category": "education",
+    "tags": ["course"],
+    "examples": ["Course plan"]
+  },
+  {
+    "title": "Newsletter Writer",
+    "description": "Write newsletter",
+    "template": "Write newsletter about {topic}. Include intro, main content, CTA.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "product updates", "required": true }
+    ],
+    "category": "email",
+    "tags": ["newsletter"],
+    "examples": ["Newsletter"]
+  },
+  {
+    "title": "Interview Questions",
+    "description": "Generate interview questions",
+    "template": "Generate 10 interview questions for {role}.",
+    "variables": [
+      { "name": "role", "type": "string", "placeholder": "frontend dev", "required": true }
+    ],
+    "category": "hr",
+    "tags": ["interview"],
+    "examples": ["Questions"]
+  },
+  {
+    "title": "Content Repurposer",
+    "description": "Repurpose content",
+    "template": "Convert this content into {formats}: {content}",
+    "variables": [
+      { "name": "formats", "type": "string", "placeholder": "tweet, blog", "required": true },
+      { "name": "content", "type": "string", "placeholder": "text", "required": true }
+    ],
+    "category": "content",
+    "tags": ["repurpose"],
+    "examples": ["Repurpose"]
+  },
+  {
+    "title": "Press Release",
+    "description": "Write PR",
+    "template": "Write press release about {announcement}",
+    "variables": [
+      { "name": "announcement", "type": "string", "placeholder": "launch", "required": true }
+    ],
+    "category": "pr",
+    "tags": ["press"],
+    "examples": ["PR"]
+  },
+  {
+    "title": "A/B Test Ideas",
+    "description": "Generate experiments",
+    "template": "Generate 5 A/B test ideas for {page}",
+    "variables": [
+      { "name": "page", "type": "string", "placeholder": "landing page", "required": true }
+    ],
+    "category": "growth",
+    "tags": ["ab-test"],
+    "examples": ["Test ideas"]
+  },
+  {
+    "title": "UX Microcopy",
+    "description": "Improve UI text",
+    "template": "Rewrite UI text: {text}",
+    "variables": [
+      { "name": "text", "type": "string", "placeholder": "error message", "required": true }
+    ],
+    "category": "ux",
+    "tags": ["microcopy"],
+    "examples": ["Improve text"]
+  },
+
+  {
+    "title": "Thai Product Description",
+    "description": "เขียนคำอธิบายสินค้า",
+    "template": "เขียนคำอธิบายสินค้า {product} โดยเน้น {benefit} และใช้โทน {tone}",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "รองเท้า", "required": true },
+      { "name": "benefit", "type": "string", "placeholder": "สบาย", "required": true },
+      { "name": "tone", "type": "string", "placeholder": "พรีเมียม", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["thai"],
+    "examples": ["เขียนคำอธิบายสินค้า"],
+    "language": "th"
+  },
+
+  {
+    "title": "Prompt Improver",
+    "description": "Improve prompts",
+    "template": "Improve this prompt: {prompt}",
+    "variables": [
+      { "name": "prompt", "type": "string", "placeholder": "write blog", "required": true }
+    ],
+    "category": "meta",
+    "tags": ["prompt"],
+    "examples": ["Improve"]
+  },
+
+  {
+    "title": "Story Generator",
+    "description": "Write stories",
+    "template": "Write a {genre} story about {topic}",
+    "variables": [
+      { "name": "genre", "type": "string", "placeholder": "fantasy", "required": true },
+      { "name": "topic", "type": "string", "placeholder": "dragon", "required": true }
+    ],
+    "category": "creative",
+    "tags": ["story"],
+    "examples": ["Story"]
+  },
+
+  {
+    "title": "Explain Like I'm 5",
+    "description": "Simplify topics",
+    "template": "Explain {topic} like I'm 5 years old",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "blockchain", "required": true }
+    ],
+    "category": "education",
+    "tags": ["eli5"],
+    "examples": ["Explain AI"]
+  },
+
+  {
+    "title": "Code Generator",
+    "description": "Generate code",
+    "template": "Write {language} code to {task}",
+    "variables": [
+      { "name": "language", "type": "string", "placeholder": "JavaScript", "required": true },
+      { "name": "task", "type": "string", "placeholder": "fetch API", "required": true }
+    ],
+    "category": "dev",
+    "tags": ["code"],
+    "examples": ["Code"]
+  },
+
+  {
+    "title": "Debug Assistant",
+    "description": "Fix code issues",
+    "template": "Fix this code: {code}",
+    "variables": [
+      { "name": "code", "type": "string", "placeholder": "error code", "required": true }
+    ],
+    "category": "dev",
+    "tags": ["debug"],
+    "examples": ["Fix code"]
+  },
+
+  {
+    "title": "SQL Query Builder",
+    "description": "Generate SQL",
+    "template": "Write SQL query to {task}",
+    "variables": [
+      { "name": "task", "type": "string", "placeholder": "get users", "required": true }
+    ],
+    "category": "dev",
+    "tags": ["sql"],
+    "examples": ["SQL"]
+  },
+
+  {
+    "title": "Daily Planner",
+    "description": "Plan tasks",
+    "template": "Create daily plan for {goal}",
+    "variables": [
+      { "name": "goal", "type": "string", "placeholder": "study", "required": true }
+    ],
+    "category": "productivity",
+    "tags": ["planner"],
+    "examples": ["Plan day"]
+  },
+
+  {
+    "title": "Motivation Quote",
+    "description": "Generate quotes",
+    "template": "Write motivational quote about {topic}",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "success", "required": true }
+    ],
+    "category": "creative",
+    "tags": ["quote"],
+    "examples": ["Quote"]
+  }
+]

@@ -15,17 +15,20 @@ import { Search } from "lucide-react"
 import { db } from "@/firebase/config"
 import { collection, getDocs, query } from "firebase/firestore"
 import { useNavigate } from 'react-router'
+import { useLanguage } from '@/lib/LanguageProvider'
 
 export function SearchPrompt() {
   const [open, setOpen] = React.useState(false)
   const [prompts, setPrompts] = React.useState([])
   const [queryText, setQueryText] = React.useState("")
   const navigate = useNavigate()
+  const { lang } = useLanguage()
 
   React.useEffect(() => {
     const fetchPrompts = async () => {
       try {
-        const q = query(collection(db, 'prompts'))
+        const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts'
+        const q = query(collection(db, collectionName))
         const snapshot = await getDocs(q)
         const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
         setPrompts(data)
@@ -35,7 +38,7 @@ export function SearchPrompt() {
     }
 
     fetchPrompts()
-  }, [])
+  }, [lang])
 
   const results = React.useMemo(() => {
     const q = queryText.trim().toLowerCase()
