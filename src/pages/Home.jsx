@@ -12,6 +12,7 @@ import BasicPagination from '@/components/common/BasicPagination';
 import CategoryTab from '@/components/home/CategoryTab';
 import Heading from '@/components/typography/Heading';
 import Paragraph from '@/components/typography/Paragraph';
+import SortSelect from '@/components/home/SortSelect';
 
 const PAGE_SIZE = 12;
 
@@ -27,16 +28,17 @@ export default function Home() {
 
   const { lang: useLang } = useLanguage();
 
+  // Computed Final Prompts
   const filteredPrompts = selectedCategory
     ? prompts.filter((p) => p.category === selectedCategory)
     : prompts;
   const totalPages = Math.ceil(filteredPrompts.length / PAGE_SIZE);
-  const [sortBy, setSortBy] = useState('likes');
-
+  
+  const selectedSort = searchParams.get('sort_by') || 'likes';
   const sortedPrompts = [...filteredPrompts].sort((a, b) => {
-    if (sortBy === 'likes') return (b.metrics?.likes || 0) - (a.metrics?.likes || 0);
-    if (sortBy === 'copies') return (b.metrics?.uses || 0) - (a.metrics?.uses || 0);
-    if (sortBy === 'alpha') return String(a.title || '').localeCompare(String(b.title || ''), undefined, { sensitivity: 'base' });
+    if (selectedSort === 'likes') return (b.metrics?.likes || 0) - (a.metrics?.likes || 0);
+    if (selectedSort === 'copies') return (b.metrics?.uses || 0) - (a.metrics?.uses || 0);
+    if (selectedSort === 'alpha') return String(a.title || '').localeCompare(String(b.title || ''), undefined, { sensitivity: 'base' });
     return 0;
   });
 
@@ -72,20 +74,9 @@ export default function Home() {
           <Flame className="size-8" />
           Popular Prompts
         </Heading>
-
-        <div className="flex items-center gap-2">
-          <label htmlFor="sort" className="text-sm text-gray-500">Sort:</label>
-          <select
-            id="sort"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="border border-gray-200 rounded-md bg-white px-3 py-2 text-sm focus:outline-none"
-          >
-            <option value="likes">Most liked</option>
-            <option value="alpha">Alphabetical (A–Z)</option>
-            <option value="copies">Most copied</option>
-          </select>
-        </div>
+        
+        {/* Sort Select */}
+        <SortSelect curSortVal={selectedSort} />
       </div>
 
       {/* Tab Categories */}
@@ -114,7 +105,7 @@ export default function Home() {
       {/* Render Prompts */}
       {error.success && !isLoaded && (
         <>
-          <div className="grid md:grid-cols-2 gap-6 mb-15">
+          <div className="grid md:grid-cols-2 gap-6 mb-15 mt-6">
             {sortedPrompts.length > 0 ? (
               sortedPrompts
                 .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)

@@ -26,6 +26,8 @@ export default function PromptCard({ prompt }) {
         {!variables && (
           <Paragraph className="mt-2.5 font-normal">No variables available.</Paragraph>
         )}
+
+        {/* Likes and Copies */}
         <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
