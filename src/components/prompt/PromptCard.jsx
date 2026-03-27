@@ -17,7 +17,7 @@ export default function PromptCard({ prompt }) {
         <Heading className="mb-2 line-clamp-1" level='3'>
           {prompt.title}
         </Heading>
-        <Paragraph className="inline-block font-normal text-blue-500 rounded-full px-2 py-.5 border border-blue-300 mb-3">
+        <Paragraph className="inline-block font-normal text-blue-500 rounded-full px-2.5 py-.5 border border-blue-300 mb-3">
           {prompt.category}
         </Paragraph>
         {variables && (

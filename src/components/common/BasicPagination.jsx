@@ -61,7 +61,7 @@ export default function BasicPagination({ totalPages }) {
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={currentPage > 1 ? createPageURL(currentPage - 1) : '#'}
+            to={currentPage > 1 ? createPageURL(currentPage - 1) : '#'}
             className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
           />
         </PaginationItem>
@@ -91,7 +91,7 @@ export default function BasicPagination({ totalPages }) {
 
         <PaginationItem>
           <PaginationNext
-            href={
+            to={
               currentPage < totalPages ? createPageURL(currentPage + 1) : '#'
             }
             className={
