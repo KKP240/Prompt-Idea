@@ -1,6 +1,8 @@
 import { Link } from 'react-router';
 
 import { Copy, Heart } from 'lucide-react';
+import Heading from '../typography/Heading';
+import Paragraph from '../typography/Paragraph';
 
 export default function PromptCard({ prompt }) {
   const variables = (prompt.variables || [])
@@ -12,21 +14,19 @@ export default function PromptCard({ prompt }) {
   return (
     <Link to={`prompt/${prompt.id}`} className="block group">
       <article className="bg-white p-5 rounded-2xl border border-gray-300 shadow-lg transition-all duration-300 transform group-hover:-translate-y-1 group-hover:shadow-xl group-hover:border-blue-500">
-        <h3 className="text-xl font-semibold mb-2 line-clamp-1">
+        <Heading className="mb-2 line-clamp-1" level='3'>
           {prompt.title}
-        </h3>
-        <p className="inline-block text-sm font-medium text-blue-500 rounded-full px-2 py-1 border-2 border-blue-500 mb-3">
+        </Heading>
+        <Paragraph className="inline-block font-normal text-blue-500 rounded-full px-2 py-.5 border border-blue-300 mb-3">
           {prompt.category}
-        </p>
+        </Paragraph>
         {variables && (
-          <div className="text-sm text-gray-400 mt-4">{variables}</div>
+          <Paragraph className="mt-2.5 font-normal">{variables}</Paragraph>
         )}
         {!variables && (
-          <div className="text-sm text-gray-400 mt-4">
-            No variables available.
-          </div>
+          <Paragraph className="mt-2.5 font-normal">No variables available.</Paragraph>
         )}
-        <div className="mt-3 flex items-center justify-between text-sm text-gray-500">
+        <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
               <Heart className="size-4 fill-blue-500 stroke-0" />

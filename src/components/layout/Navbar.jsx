@@ -1,4 +1,4 @@
-import { CirclePlus, House, Search } from 'lucide-react';
+import { CirclePlus, House } from 'lucide-react';
 import { Link } from 'react-router';
 import { SearchPrompt } from './SearchPrompt';
 import { useLanguage } from '@/lib/LanguageProvider';
@@ -10,9 +10,9 @@ export default function Navbar() {
     <header className="w-full border-b border-gray-300 shadow-sm">
       <nav className="max-w-275 mx-auto flex justify-between items-center p-6">
         {/* Logo */}
-        <h1 className="text-2xl font-semibold text-blue-500">
+        <h2 className="text-2xl font-semibold text-blue-500">
           <Link to="/">PromptCraft</Link>
-        </h1>
+        </h2>
 
         {/* Action Link and Button */}
         <div className="flex gap-2.5 items-center">
