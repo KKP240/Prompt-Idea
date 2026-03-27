@@ -13,7 +13,7 @@ export default function CategoryTab({ activeTab, categories, className = '' }) {
   return (
     <Tabs value={activeTab} className={cn(className)}>
       <div className="overflow-x-auto overflow-y-hidden">
-        <TabsList variant="line" className="w-full justify-start border-b mb-6">
+        <TabsList variant="line" className="w-full justify-start mb-2">
           {/* Tab Category - All */}
           <TabsTrigger
             value="all"

@@ -90,7 +90,7 @@ export default function Home() {
       {/* Render Prompts */}
       {error.success && !isLoaded && (
         <>
-          <div className="grid md:grid-cols-2 gap-6 mb-15">
+          <div className="grid md:grid-cols-2 gap-6 mb-15 mt-6">
             {filteredPrompts.length > 0 ? (
               filteredPrompts
                 .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
