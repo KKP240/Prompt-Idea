@@ -1,30 +1,31 @@
-"use client"
-
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
 import { Search } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+
 import { db } from "@/firebase/config"
 import { collection, getDocs, query } from "firebase/firestore"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from 'react-router'
 import { useLanguage } from '@/lib/LanguageProvider'
 
 export function SearchPrompt() {
-  const [open, setOpen] = React.useState(false)
-  const [prompts, setPrompts] = React.useState([])
-  const [queryText, setQueryText] = React.useState("")
+  // Command State
+  const [open, setOpen] = useState(false)
+  const [queryText, setQueryText] = useState("")
+  const [prompts, setPrompts] = useState([])
+
+  const initCommandResult = [
+    { path: '/', label: 'Popular Prompts' },
+    { path: '/add', label: 'Create New Prompt' },
+    { path: `${prompts.length > 0 ? `/prompt/${prompts[Math.floor(Math.random() * prompts.length)].id}`: ''}`, label: 'Try a Random Prompt' },
+    { path: '/', label: 'Browse Categories' }
+  ]
+
   const navigate = useNavigate()
   const { lang } = useLanguage()
 
-  React.useEffect(() => {
+  // Prompt Languages
+  useEffect(() => {
     const fetchPrompts = async () => {
       try {
         const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts'
@@ -39,8 +40,9 @@ export function SearchPrompt() {
 
     fetchPrompts()
   }, [lang])
-
-  const results = React.useMemo(() => {
+  
+  //  Computed Result
+  const results = useMemo(() => {
     const q = queryText.trim().toLowerCase()
     if (!q) return []
     return prompts.filter((p) => {
@@ -53,34 +55,41 @@ export function SearchPrompt() {
     })
   }, [prompts, queryText])
 
+  // Select Command Item
+  const handleSelectCommandItem = function(path){
+    navigate(path)
+
+    setQueryText('');
+    setOpen(false);
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      <Button onClick={() => setOpen(true)} variant="outline" className="flex items-center justify-center border border-gray-300 transition-all duration-300 hover:border-blue-500 rounded-full p-2 shadow-lg" >
-        <Search className="text-blue-500 size-5" />
+      <Button 
+        onClick={() => setOpen(true)} 
+        size="icon-lg"
+        className="bg-transparent border border-white transition-all duration-300 hover:border-gray-300 hover:bg-blue-500 rounded-full shadow-xl"
+        aria-label='ค้นหา Prompt ต่างๆ'
+      >
+        <Search className="text-white size-5" />
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <Command>
+        <Command shouldFilter={false}>
           <CommandInput
             placeholder="Search prompts by title, description, category, tags..."
             value={queryText}
             onValueChange={(v) => setQueryText(v)}
           />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty className='text-gray-500'>No results found.</CommandEmpty>
 
-            {queryText.trim() !== "" && (
-              <CommandGroup heading="Results">
+            {/* Found Result */}
+            {queryText.trim() !== "" && results.length > 0 && (
+              <CommandGroup heading={`Results`}>
                 {results.slice(0, 10).map((p) => (
                   <CommandItem
                     key={p.id}
-                    onSelect={() => {
-                      setOpen(false)
-                      navigate(`/prompt/${p.id}`)
-                    }}
-                    onClick={() => {
-                      setOpen(false)
-                      navigate(`/prompt/${p.id}`)
-                    }}
+                    onSelect={() => handleSelectCommandItem(`/prompt/${p.id}`)}
                   >
                     <div className="flex flex-col">
                       <span className="font-medium">{p.title || 'Untitled'}</span>
@@ -93,46 +102,17 @@ export function SearchPrompt() {
               </CommandGroup>
             )}
 
+            {/* Initial Result */}
             {queryText.trim() === "" && (
               <CommandGroup heading="Quick Actions">
-                <CommandItem
-                  onSelect={() => {
-                    setOpen(false)
-                    navigate('/')
-                  }}
-                >
-                  Popular Prompts
-                </CommandItem>
-
-                <CommandItem
-                  onSelect={() => {
-                    setOpen(false)
-                    navigate('/add')
-                  }}
-                >
-                  Create New Prompt
-                </CommandItem>
-
-                <CommandItem
-                  onSelect={() => {
-                    setOpen(false)
-                    if (prompts && prompts.length > 0) {
-                      const r = prompts[Math.floor(Math.random() * prompts.length)]
-                      navigate(`/prompt/${r.id}`)
-                    }
-                  }}
-                >
-                  Try a Random Prompt
-                </CommandItem>
-
-                <CommandItem
-                  onSelect={() => {
-                    setOpen(false)
-                    navigate('/')
-                  }}
-                >
-                  Browse Categories
-                </CommandItem>
+                {initCommandResult.length > 0 && initCommandResult.map(result => (
+                  <CommandItem
+                    key={result.label}
+                    onSelect={() => handleSelectCommandItem(result.path)}
+                  >
+                    {result.label}
+                  </CommandItem>
+                ))}
               </CommandGroup>
             )}
           </CommandList>
@@ -141,4 +121,3 @@ export function SearchPrompt() {
     </div>
   )
 }
-
