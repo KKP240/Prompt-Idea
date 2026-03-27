@@ -31,6 +31,14 @@ export default function Home() {
     ? prompts.filter((p) => p.category === selectedCategory)
     : prompts;
   const totalPages = Math.ceil(filteredPrompts.length / PAGE_SIZE);
+  const [sortBy, setSortBy] = useState('likes');
+
+  const sortedPrompts = [...filteredPrompts].sort((a, b) => {
+    if (sortBy === 'likes') return (b.metrics?.likes || 0) - (a.metrics?.likes || 0);
+    if (sortBy === 'copies') return (b.metrics?.uses || 0) - (a.metrics?.uses || 0);
+    if (sortBy === 'alpha') return String(a.title || '').localeCompare(String(b.title || ''), undefined, { sensitivity: 'base' });
+    return 0;
+  });
 
   // Fetch Prompts
   useEffect(() => {
@@ -59,10 +67,26 @@ export default function Home() {
 
   return (
     <div className="px-6 py-14">
-      <Heading className="mb-10 flex items-center gap-2">
-        <Flame className="size-8" />
-        Popular Prompts
-      </Heading>
+      <div className="mb-10 flex items-center justify-between">
+        <Heading className="flex items-center gap-2">
+          <Flame className="size-8" />
+          Popular Prompts
+        </Heading>
+
+        <div className="flex items-center gap-2">
+          <label htmlFor="sort" className="text-sm text-gray-500">Sort:</label>
+          <select
+            id="sort"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="border border-gray-200 rounded-md bg-white px-3 py-2 text-sm focus:outline-none"
+          >
+            <option value="likes">Most liked</option>
+            <option value="alpha">Alphabetical (A–Z)</option>
+            <option value="copies">Most copied</option>
+          </select>
+        </div>
+      </div>
 
       {/* Tab Categories */}
       {prompts.length > 0 && (
@@ -90,9 +114,9 @@ export default function Home() {
       {/* Render Prompts */}
       {error.success && !isLoaded && (
         <>
-          <div className="grid md:grid-cols-2 gap-6 mb-15 mt-6">
-            {filteredPrompts.length > 0 ? (
-              filteredPrompts
+          <div className="grid md:grid-cols-2 gap-6 mb-15">
+            {sortedPrompts.length > 0 ? (
+              sortedPrompts
                 .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
                 .map((p) => <PromptCard key={p.id} prompt={p} />)
             ) : (
@@ -101,7 +125,7 @@ export default function Home() {
           </div>
 
           {/* Pagination */}
-          {filteredPrompts.length > PAGE_SIZE && <BasicPagination totalPages={totalPages} />}
+          {sortedPrompts.length > PAGE_SIZE && <BasicPagination totalPages={totalPages} />}
         </>
       )}
     </div>
