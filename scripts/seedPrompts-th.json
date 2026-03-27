@@ -1,0 +1,353 @@
+[
+  {
+    "title": "วิเคราะห์พฤติกรรมผู้ใช้",
+    "slug": "user-behavior-analysis",
+    "description": "วิเคราะห์พฤติกรรมและแรงจูงใจของผู้ใช้งาน",
+    "template": "จากข้อมูลพฤติกรรมผู้ใช้ต่อไปนี้: {data} ให้วิเคราะห์รูปแบบการใช้งาน ความต้องการที่แท้จริง ปัญหาที่ผู้ใช้อาจเจอ และแรงจูงใจเบื้องหลัง จากนั้นสรุป insight สำคัญ 5 ข้อ และเสนอแนวทางปรับปรุง product หรือ feature ให้ตอบโจทย์มากขึ้น โดยอธิบายแบบเข้าใจง่ายและใช้งานได้จริง",
+    "variables": [
+      { "name": "data", "type": "string", "placeholder": "ข้อมูลพฤติกรรมผู้ใช้", "required": true }
+    ],
+    "category": "research",
+    "tags": ["user-behavior", "insight"],
+    "examples": ["ข้อมูลผู้ใช้แอปช้อปปิ้งออนไลน์"]
+  },
+  {
+    "title": "เขียนโพสต์ขายแบบไม่ขายตรง",
+    "slug": "soft-sell-post",
+    "description": "เขียนคอนเทนต์ขายแบบเนียนๆ",
+    "template": "เขียนโพสต์เกี่ยวกับ {product} โดยไม่ขายตรง แต่ทำให้ผู้อ่านรู้สึกอยากได้เอง ใช้ storytelling หรือประสบการณ์จริง สร้างความเชื่อมโยงทางอารมณ์ และค่อยๆ แทรกจุดเด่นของสินค้าแบบเป็นธรรมชาติ ปิดท้ายด้วย CTA เบาๆ",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "คอร์สออนไลน์", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["soft-sell", "content"],
+    "examples": ["คอร์สเรียนภาษาอังกฤษ"]
+  },
+  {
+    "title": "สรุปหนังสือเชิงลึก",
+    "slug": "deep-book-summary",
+    "description": "สรุปหนังสือแบบเข้าใจง่ายแต่ได้ insight",
+    "template": "สรุปหนังสือเรื่อง {book} โดยอธิบายแนวคิดหลัก บทเรียนสำคัญ ตัวอย่างที่น่าสนใจ และวิธีนำไปใช้จริงในชีวิตหรือการทำงาน สรุปให้อ่านง่ายแต่ได้สาระครบ และปิดท้ายด้วย reflection หรือข้อคิด",
+    "variables": [
+      { "name": "book", "type": "string", "placeholder": "Atomic Habits", "required": true }
+    ],
+    "category": "education",
+    "tags": ["summary", "book"],
+    "examples": ["หนังสือ Atomic Habits"]
+  },
+  {
+    "title": "วางแผนชีวิต 1 ปี",
+    "slug": "one-year-life-plan",
+    "description": "ช่วยวางแผนชีวิตแบบมีโครงสร้าง",
+    "template": "ช่วยวางแผนชีวิตใน 1 ปีสำหรับเป้าหมายนี้: {goal} โดยแบ่งเป็นรายไตรมาส พร้อม milestone ชัดเจน สิ่งที่ต้องทำในแต่ละช่วง อุปสรรคที่อาจเจอ และวิธีรับมือ รวมถึงตัวชี้วัดความสำเร็จ",
+    "variables": [
+      { "name": "goal", "type": "string", "placeholder": "เปลี่ยนอาชีพ", "required": true }
+    ],
+    "category": "life",
+    "tags": ["planning", "goal"],
+    "examples": ["ย้ายสายงานไปทำ IT"]
+  },
+  {
+    "title": "ตั้งราคาสินค้า",
+    "slug": "product-pricing-strategy",
+    "description": "ช่วยคิด pricing strategy",
+    "template": "ช่วยวิเคราะห์การตั้งราคาสำหรับ {product} โดยพิจารณาต้นทุน กลุ่มเป้าหมาย positioning และคู่แข่ง เสนอราคา 3 ระดับ (ต่ำ กลาง สูง) พร้อมเหตุผล และแนะนำว่าควรเลือกแบบไหน",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "แอป subscription", "required": true }
+    ],
+    "category": "business",
+    "tags": ["pricing", "strategy"],
+    "examples": ["แอปพลิเคชันจัดตารางงาน"]
+  },
+  {
+    "title": "รีวิวตัวเองแบบตรงไปตรงมา",
+    "slug": "honest-self-review",
+    "description": "สะท้อนตัวเองเพื่อพัฒนา",
+    "template": "จากข้อมูลนี้เกี่ยวกับตัวฉัน: {info} ช่วยวิเคราะห์จุดแข็ง จุดอ่อน พฤติกรรมที่ควรปรับ และศักยภาพที่ยังไม่ได้ใช้ พร้อมคำแนะนำแบบตรงไปตรงมาแต่สร้างสรรค์",
+    "variables": [
+      { "name": "info", "type": "string", "placeholder": "นิสัยและการทำงานของฉัน", "required": true }
+    ],
+    "category": "self-development",
+    "tags": ["reflection", "growth"],
+    "examples": ["เป็นคนทำงานเร็วแต่ขาดความรอบคอบ"]
+  },
+  {
+    "title": "วิเคราะห์โพสต์ไวรัล",
+    "slug": "viral-post-analysis",
+    "description": "เข้าใจว่าทำไมคอนเทนต์ถึงดัง",
+    "template": "วิเคราะห์โพสต์นี้: {post} ว่าทำไมถึงมีโอกาสไวรัล วิเคราะห์ hook, emotion, timing, format และ psychology ของผู้ชม จากนั้นสรุปหลักการที่นำไปใช้ซ้ำได้",
+    "variables": [
+      { "name": "post", "type": "string", "placeholder": "เนื้อหาโพสต์", "required": true }
+    ],
+    "category": "content",
+    "tags": ["viral", "analysis"],
+    "examples": ["โพสต์รีวิวร้านอาหารที่คนแชร์หลักหมื่น"]
+  },
+  {
+    "title": "ออกแบบ challenge 7 วัน",
+    "slug": "7-day-challenge-design",
+    "description": "สร้าง challenge เพื่อ engagement",
+    "template": "ออกแบบ challenge 7 วันเกี่ยวกับ {topic} โดยแต่ละวันมีภารกิจชัดเจน ง่ายต่อการทำ และช่วยให้ผู้เข้าร่วมเห็นผลลัพธ์จริง พร้อมคำอธิบายและเป้าหมายของแต่ละวัน",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "พัฒนาตัวเอง", "required": true }
+    ],
+    "category": "community",
+    "tags": ["challenge", "engagement"],
+    "examples": ["ตื่นเช้าออกกำลังกาย"]
+  },
+  {
+    "title": "เขียน bio โปรไฟล์",
+    "slug": "profile-bio-writing",
+    "description": "สร้าง bio ที่น่าสนใจ",
+    "template": "เขียน bio สำหรับ {platform} ของคนที่ทำ {role} โดยต้องสื่อความน่าสนใจ จุดเด่น และตัวตนอย่างชัดเจน พร้อม 3 เวอร์ชัน (ทางการ / เป็นกันเอง / สร้างแรงบันดาลใจ)",
+    "variables": [
+      { "name": "platform", "type": "string", "placeholder": "Instagram", "required": true },
+      { "name": "role", "type": "string", "placeholder": "นักเขียน", "required": true }
+    ],
+    "category": "branding",
+    "tags": ["bio", "profile"],
+    "examples": ["โปรไฟล์นักออกแบบกราฟิกอิสระ"]
+  },
+  {
+    "title": "แตกไอเดียธุรกิจ",
+    "slug": "business-idea-breakdown",
+    "description": "ต่อยอดไอเดียให้เป็นรูปธรรม",
+    "template": "จากไอเดียนี้: {idea} ช่วยแตกออกเป็นโมเดลธุรกิจ วิธีหาเงิน กลุ่มลูกค้า ช่องทางขาย และความเสี่ยงที่ควรระวัง พร้อมคำแนะนำว่าควรเริ่มจากตรงไหนก่อน",
+    "variables": [
+      { "name": "idea", "type": "string", "placeholder": "แพลตฟอร์มขาย prompt", "required": true }
+    ],
+    "category": "startup",
+    "tags": ["idea", "business"],
+    "examples": ["แพลตฟอร์มรวมช่างซ่อมบ้าน"]
+  },
+  {
+    "title": "เขียน script TikTok",
+    "slug": "tiktok-script-writing",
+    "description": "สคริปต์วิดีโอสั้น",
+    "template": "เขียนสคริปต์ TikTok เกี่ยวกับ {topic} ความยาว 30-60 วินาที ต้องมี hook ตอนต้น เนื้อหากระชับ เข้าใจง่าย และปิดท้ายด้วย CTA ที่ชัดเจน",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "AI ทำงานยังไง", "required": true }
+    ],
+    "category": "content",
+    "tags": ["tiktok", "video"],
+    "examples": ["วิธีเก็บเงินให้อยู่"]
+  },
+  {
+    "title": "สร้าง habit ใหม่",
+    "slug": "create-new-habit",
+    "description": "ออกแบบนิสัยใหม่",
+    "template": "ช่วยออกแบบ habit สำหรับเป้าหมาย {goal} โดยทำให้เริ่มง่าย ทำต่อเนื่องได้จริง และมีระบบติดตามผล พร้อมแนะนำวิธีแก้เวลาหลุด",
+    "variables": [
+      { "name": "goal", "type": "string", "placeholder": "อ่านหนังสือทุกวัน", "required": true }
+    ],
+    "category": "life",
+    "tags": ["habit", "self-improvement"],
+    "examples": ["อ่านหนังสือวันละ 15 นาที"]
+  },
+  {
+    "title": "วิเคราะห์ความเสี่ยง",
+    "slug": "risk-analysis",
+    "description": "ประเมินความเสี่ยง",
+    "template": "วิเคราะห์ความเสี่ยงของ {plan} โดยแยกเป็นความเสี่ยงด้านการเงิน การดำเนินงาน และตลาด พร้อมระดับความรุนแรง และวิธีป้องกัน",
+    "variables": [
+      { "name": "plan", "type": "string", "placeholder": "เปิดร้านกาแฟ", "required": true }
+    ],
+    "category": "business",
+    "tags": ["risk", "analysis"],
+    "examples": ["เปิดร้านกาแฟหน้าโรงเรียน"]
+  },
+  {
+    "title": "เขียน landing page",
+    "slug": "landing-page-copywriting",
+    "description": "หน้าเว็บขายของ",
+    "template": "เขียน landing page สำหรับ {product} โดยมี headline, pain point, solution, benefit, social proof, และ CTA ใช้ภาษาที่โน้มน้าวและอ่านง่าย",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "คอร์ส AI", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["landing-page", "copy"],
+    "examples": ["คอร์สสอนใช้ AI ช่วยทำงาน"]
+  },
+  {
+    "title": "สรุปข่าวให้เข้าใจง่าย",
+    "slug": "simple-news-summary",
+    "description": "อธิบายข่าวซับซ้อน",
+    "template": "สรุปข่าวนี้: {news} ให้เข้าใจง่ายสำหรับคนทั่วไป อธิบายว่าเกิดอะไรขึ้น สำคัญยังไง และมีผลกระทบอะไร",
+    "variables": [
+      { "name": "news", "type": "string", "placeholder": "เนื้อหาข่าว", "required": true }
+    ],
+    "category": "education",
+    "tags": ["news", "summary"],
+    "examples": ["ข่าวการปรับขึ้นอัตราดอกเบี้ย"]
+  },
+  {
+    "title": "วิเคราะห์ decision",
+    "slug": "decision-analysis",
+    "description": "ช่วยตัดสินใจ",
+    "template": "ช่วยวิเคราะห์การตัดสินใจนี้: {decision} โดยเปรียบเทียบข้อดี ข้อเสีย ความเสี่ยง และผลระยะยาว พร้อมแนะนำทางเลือกที่เหมาะสม",
+    "variables": [
+      { "name": "decision", "type": "string", "placeholder": "เปลี่ยนงาน", "required": true }
+    ],
+    "category": "life",
+    "tags": ["decision", "analysis"],
+    "examples": ["ตัดสินใจลาออกไปทำธุรกิจส่วนตัว"]
+  },
+  {
+    "title": "สร้าง checklist งาน",
+    "slug": "create-task-checklist",
+    "description": "จัดระเบียบงาน",
+    "template": "สร้าง checklist สำหรับ {task} โดยแบ่งเป็นขั้นตอนชัดเจน และเรียงลำดับให้ทำตามได้ง่าย",
+    "variables": [
+      { "name": "task", "type": "string", "placeholder": "เปิดร้านออนไลน์", "required": true }
+    ],
+    "category": "productivity",
+    "tags": ["checklist", "task"],
+    "examples": ["ขั้นตอนการเปิดเพจ Facebook"]
+  },
+  {
+    "title": "เขียน email มืออาชีพ",
+    "slug": "professional-email-writing",
+    "description": "อีเมลทางการ",
+    "template": "เขียน email เกี่ยวกับ {topic} โดยใช้โทนสุภาพ ชัดเจน และตรงประเด็น พร้อม subject ที่ดี",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "ขอเลื่อนประชุม", "required": true }
+    ],
+    "category": "communication",
+    "tags": ["email", "professional"],
+    "examples": ["อีเมลขอลาป่วย"]
+  },
+  {
+    "title": "ออกแบบฟีเจอร์ใหม่",
+    "slug": "new-feature-design",
+    "description": "คิด feature",
+    "template": "ช่วยออกแบบ feature สำหรับ {product} ที่ช่วยแก้ปัญหา {problem} โดยอธิบายแนวคิด วิธีทำงาน และประโยชน์",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "แอปโน้ต", "required": true },
+      { "name": "problem", "type": "string", "placeholder": "หาข้อมูลยาก", "required": true }
+    ],
+    "category": "product",
+    "tags": ["feature", "design"],
+    "examples": ["ฟีเจอร์สรุปยอดใช้จ่ายอัตโนมัติ"]
+  },
+  {
+    "title": "วางกลยุทธ์คอนเทนต์",
+    "slug": "content-strategy-planning",
+    "description": "content strategy",
+    "template": "วางกลยุทธ์คอนเทนต์สำหรับ {brand} โดยกำหนด content pillar, target audience, tone และรูปแบบคอนเทนต์",
+    "variables": [
+      { "name": "brand", "type": "string", "placeholder": "เพจความรู้ AI", "required": true }
+    ],
+    "category": "content",
+    "tags": ["strategy"],
+    "examples": ["เพจให้ความรู้ด้านการเงิน"]
+  },
+  {
+    "title": "เขียน hook ให้หยุดเลื่อน",
+    "slug": "scroll-stopping-hook",
+    "description": "เปิดโพสต์ให้น่าสนใจ",
+    "template": "สร้าง hook 10 แบบสำหรับ {topic} ที่ทำให้คนหยุดเลื่อน และอยากอ่านต่อ",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "หารายได้ออนไลน์", "required": true }
+    ],
+    "category": "content",
+    "tags": ["hook"],
+    "examples": ["วิธีลดน้ำหนักโดยไม่ต้องอดอาหาร"]
+  },
+  {
+    "title": "รีวิวสินค้าแบบละเอียด",
+    "slug": "detailed-product-review",
+    "description": "รีวิวจริงใจ",
+    "template": "เขียนรีวิว {product} โดยพูดถึงข้อดี ข้อเสีย ประสบการณ์ใช้งาน และเหมาะกับใคร",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "iPad", "required": true }
+    ],
+    "category": "review",
+    "tags": ["review"],
+    "examples": ["รีวิวหูฟังไร้สาย"]
+  },
+  {
+    "title": "สร้าง roadmap",
+    "slug": "create-roadmap",
+    "description": "วางแผนระยะยาว",
+    "template": "สร้าง roadmap สำหรับ {goal} ภายใน {timeframe} โดยแบ่งเป็นเฟสและ milestone",
+    "variables": [
+      { "name": "goal", "type": "string", "placeholder": "สร้าง SaaS", "required": true },
+      { "name": "timeframe", "type": "string", "placeholder": "6 เดือน", "required": true }
+    ],
+    "category": "planning",
+    "tags": ["roadmap"],
+    "examples": ["สร้างแอปพลิเคชันให้เสร็จใน 3 เดือน"]
+  },
+  {
+    "title": "ตั้งคำถามเชิงลึก",
+    "slug": "deep-insightful-questions",
+    "description": "ถามให้คิด",
+    "template": "สร้างคำถามเชิงลึกเกี่ยวกับ {topic} จำนวน 10 ข้อ ที่ช่วยให้เข้าใจมากขึ้น",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "ชีวิต", "required": true }
+    ],
+    "category": "thinking",
+    "tags": ["questions"],
+    "examples": ["ความหมายของการใช้ชีวิต"]
+  },
+  {
+    "title": "เขียนโพสต์ให้กำลังใจ",
+    "slug": "motivational-post",
+    "description": "motivation",
+    "template": "เขียนข้อความให้กำลังใจเกี่ยวกับ {situation} ที่อ่านแล้วรู้สึกดีขึ้น",
+    "variables": [
+      { "name": "situation", "type": "string", "placeholder": "ทำงานหนัก", "required": true }
+    ],
+    "category": "life",
+    "tags": ["motivation"],
+    "examples": ["หมดไฟในการทำงาน"]
+  },
+  {
+    "title": "อธิบายเรื่องยากให้เด็กเข้าใจ",
+    "slug": "simplify-complex-topics",
+    "description": "simplify",
+    "template": "อธิบาย {topic} ให้เด็กอายุ 10 ขวบเข้าใจ โดยใช้ตัวอย่างง่ายๆ",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "blockchain", "required": true }
+    ],
+    "category": "education",
+    "tags": ["simplify"],
+    "examples": ["การทำงานของอินเทอร์เน็ต"]
+  },
+  {
+    "title": "วิเคราะห์แบรนด์",
+    "slug": "brand-analysis",
+    "description": "brand analysis",
+    "template": "วิเคราะห์แบรนด์ {brand} ในด้าน positioning, target, tone และจุดเด่น",
+    "variables": [
+      { "name": "brand", "type": "string", "placeholder": "Apple", "required": true }
+    ],
+    "category": "branding",
+    "tags": ["brand"],
+    "examples": ["แบรนด์ Nike"]
+  },
+  {
+    "title": "สร้างไอเดียคอนเทนต์",
+    "slug": "content-ideas-generation",
+    "description": "content ideas",
+    "template": "เสนอไอเดียคอนเทนต์ 15 แบบเกี่ยวกับ {topic} ที่น่าสนใจ",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "AI", "required": true }
+    ],
+    "category": "content",
+    "tags": ["ideas"],
+    "examples": ["เทคนิคการถ่ายรูปด้วยมือถือ"]
+  },
+  {
+    "title": "วาง funnel การขาย",
+    "slug": "sales-funnel-strategy",
+    "description": "sales funnel",
+    "template": "ออกแบบ funnel สำหรับ {product} ตั้งแต่ awareness ถึง conversion",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "คอร์ส", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["funnel"],
+    "examples": ["คอร์สสอนยิงแอด"]
+  }
+]

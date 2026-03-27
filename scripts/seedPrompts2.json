@@ -1,0 +1,346 @@
+[
+  {
+    "title": "Competitor Analysis Brief",
+    "description": "Analyze competitors and summarize strategic insights.",
+    "template": "Analyze the following competitors for {product}. Compare positioning, target audience, key features, pricing approach, strengths, weaknesses, and likely market gaps. Then summarize 5 strategic insights, 3 opportunities we can exploit, and 3 risks to avoid. Use a clear business-report style and keep the answer structured with headings.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "AI note-taking app", "required": true }
+    ],
+    "category": "research",
+    "tags": ["competitor-analysis", "strategy", "market-research"],
+    "examples": ["Analyze competitors for a habit tracking app and summarize strategic opportunities."]
+  },
+  {
+    "title": "Feature Prioritization Assistant",
+    "description": "Rank product features based on value and effort.",
+    "template": "You are helping prioritize product features for {product}. Given the list of features below: {features}, evaluate each one by user impact, business value, implementation effort, and strategic importance. Then propose a prioritization order using a simple framework such as impact vs effort or RICE. Finally, explain the reasoning in practical product-manager language and suggest the first 3 features to build next.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "project management SaaS", "required": true },
+      { "name": "features", "type": "string", "placeholder": "feature list", "required": true }
+    ],
+    "category": "product",
+    "tags": ["prioritization", "roadmap", "product-management"],
+    "examples": ["Prioritize features for a CRM and recommend what to build next."]
+  },
+  {
+    "title": "Customer Persona Builder",
+    "description": "Create a realistic buyer persona for marketing and product use.",
+    "template": "Create a detailed customer persona for {product}. Include demographics, job role, goals, frustrations, buying triggers, objections, preferred channels, and decision-making behavior. Add a realistic day-in-the-life summary and explain how this persona would evaluate our product versus alternatives. Make it practical enough to use for marketing, sales, and UX decisions.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "AI design tool", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["persona", "customer-research", "segmentation"],
+    "examples": ["Create a customer persona for a meal planning app."]
+  },
+  {
+    "title": "User Story Generator",
+    "description": "Convert requirements into actionable user stories.",
+    "template": "Turn the following product requirement into a full set of user stories: {requirement}. For each story, include the user role, goal, acceptance criteria, edge cases, and priority level. Write the stories in a format that a product team can hand directly to engineering and QA. Keep the language concise but specific.",
+    "variables": [
+      { "name": "requirement", "type": "string", "placeholder": "users can save favorite prompts", "required": true }
+    ],
+    "category": "product",
+    "tags": ["user-stories", "requirements", "agile"],
+    "examples": ["Turn the requirement into user stories for passwordless login."]
+  },
+  {
+    "title": "Release Notes Writer",
+    "description": "Write polished release notes for a product update.",
+    "template": "Write release notes for this update: {changes}. Organize the response into sections such as New, Improved, Fixed, and Known Issues if relevant. Use a polished but easy-to-read product tone. Mention the user benefit for each change and keep the language clear enough for customers, internal teams, and support staff.",
+    "variables": [
+      { "name": "changes", "type": "string", "placeholder": "list of product changes", "required": true }
+    ],
+    "category": "product",
+    "tags": ["release-notes", "changelog", "product-updates"],
+    "examples": ["Write release notes for a new prompt search feature and bug fixes."]
+  },
+  {
+    "title": "Knowledge Base Article Writer",
+    "description": "Create a help center article with clear steps and troubleshooting.",
+    "template": "Write a knowledge base article for the topic: {topic}. Include a short introduction, step-by-step instructions, common mistakes, troubleshooting tips, and a short FAQ section at the end. Use a calm, helpful support tone. Make the article easy for non-technical users to follow.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "how to reset your password", "required": true }
+    ],
+    "category": "support",
+    "tags": ["help-center", "documentation", "support"],
+    "examples": ["Write a knowledge base article for changing account email."]
+  },
+  {
+    "title": "Policy Draft Helper",
+    "description": "Draft a practical internal policy or guideline.",
+    "template": "Draft an internal policy for {policy_topic}. The policy should include purpose, scope, responsibilities, rules, exceptions, and enforcement notes. Write it in professional but readable language, and make it suitable for a startup or SaaS team. If any part of the policy is ambiguous, include a short section called 'Guiding Principles' to clarify the intent.",
+    "variables": [
+      { "name": "policy_topic", "type": "string", "placeholder": "remote work and communication", "required": true }
+    ],
+    "category": "operations",
+    "tags": ["policy", "internal-process", "guidelines"],
+    "examples": ["Draft an internal policy for AI tool usage at work."]
+  },
+  {
+    "title": "Refund Reply Generator",
+    "description": "Create a professional and empathetic refund response.",
+    "template": "Write a customer support reply for a refund request about {issue}. The response should be empathetic, clear, and aligned with a fair support policy. Include acknowledgement, next steps, any required conditions, and a positive closing. Keep the tone human and avoid sounding robotic.",
+    "variables": [
+      { "name": "issue", "type": "string", "placeholder": "subscription renewal complaint", "required": true }
+    ],
+    "category": "support",
+    "tags": ["refund", "customer-service", "reply"],
+    "examples": ["Write a refund reply for a user who was charged twice."]
+  },
+  {
+    "title": "App Store Listing Optimizer",
+    "description": "Improve app store copy for conversion.",
+    "template": "Write an optimized app store listing for {app}. Include a compelling title, subtitle, short description, long description, feature highlights, and keyword-friendly copy. Focus on conversion, clarity, and user benefit. Make the copy feel natural rather than stuffed with keywords.",
+    "variables": [
+      { "name": "app", "type": "string", "placeholder": "focus timer app", "required": true }
+    ],
+    "category": "marketing",
+    "tags": ["app-store", "conversion", "copywriting"],
+    "examples": ["Write an app store listing for a budget tracker."]
+  },
+  {
+    "title": "Product Requirements Document",
+    "description": "Generate a lightweight PRD draft.",
+    "template": "Create a product requirements document for {feature}. Include problem statement, goals, non-goals, target users, assumptions, requirements, success metrics, edge cases, and open questions. Structure the output like a real PRD that a product team could review internally before implementation.",
+    "variables": [
+      { "name": "feature", "type": "string", "placeholder": "saved searches in prompt library", "required": true }
+    ],
+    "category": "product",
+    "tags": ["prd", "spec", "requirements"],
+    "examples": ["Create a PRD for collaborative folders in a prompt library."]
+  },
+  {
+    "title": "Onboarding Survey Builder",
+    "description": "Create questions for a user onboarding survey.",
+    "template": "Design a short onboarding survey for {product}. Include 5 to 8 questions that help us understand user goals, experience level, use case, and expectations. For each question, explain why it is useful and how the answer could influence personalization, recommendations, or activation flow.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "prompt library platform", "required": true }
+    ],
+    "category": "ux",
+    "tags": ["onboarding", "survey", "user-research"],
+    "examples": ["Design an onboarding survey for a fitness coaching app."]
+  },
+  {
+    "title": "Content Brief Generator",
+    "description": "Create a full content brief for writers.",
+    "template": "Create a detailed content brief for an article about {topic}. Include target audience, search intent, main angle, working title ideas, key points, recommended structure, suggested internal links, CTA, and notes for tone and style. Make the brief complete enough for a writer to draft the article without needing extra direction.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "best AI tools for teams", "required": true }
+    ],
+    "category": "content",
+    "tags": ["content-brief", "seo", "writing"],
+    "examples": ["Create a content brief for a guide to prompt engineering."]
+  },
+  {
+    "title": "Affiliate Product Review",
+    "description": "Write a persuasive but honest product review.",
+    "template": "Write a long-form review of {product}. Include what it is, who it is for, main benefits, limitations, pricing considerations, and a final recommendation. Keep the tone trustworthy and balanced, as if the reader needs help deciding whether to buy. Make it suitable for an affiliate blog without sounding overly promotional.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "AI writing assistant", "required": true }
+    ],
+    "category": "review",
+    "tags": ["affiliate", "review", "product-analysis"],
+    "examples": ["Write a long-form review of a password manager."]
+  },
+  {
+    "title": "Webinar Outline Builder",
+    "description": "Generate a webinar agenda and talking points.",
+    "template": "Create a webinar outline for {topic}. Include a strong title, a clear promise, intro, section-by-section agenda, talking points, audience interaction ideas, and a closing CTA. Make the flow engaging and educational, and suggest moments where the presenter should ask questions or show examples.",
+    "variables": [
+      { "name": "topic", "type": "string", "placeholder": "building a prompt library", "required": true }
+    ],
+    "category": "events",
+    "tags": ["webinar", "presentation", "outline"],
+    "examples": ["Create a webinar outline for launching a SaaS product."]
+  },
+  {
+    "title": "Case Study Interview Guide",
+    "description": "Create questions for collecting a customer success story.",
+    "template": "Create a case study interview guide for a customer who used {product}. Include discovery questions, before-and-after questions, measurable outcome questions, emotional impact questions, and quote prompts that could become strong pull quotes in a published case study.",
+    "variables": [
+      { "name": "product", "type": "string", "placeholder": "team collaboration software", "required": true }
+    ],
+    "category": "research",
+    "tags": ["case-study", "interview", "customer-success"],
+    "examples": ["Create a case study interview guide for a marketing automation platform."]
+  },
+  {
+    "title": "UX Research Plan",
+    "description": "Plan a practical UX research study.",
+    "template": "Create a UX research plan for {feature}. Include research goals, key questions, participant profile, recruitment criteria, method selection, session structure, sample tasks, and how results will be analyzed. The plan should be realistic for a small product team with limited time.",
+    "variables": [
+      { "name": "feature", "type": "string", "placeholder": "prompt search and filters", "required": true }
+    ],
+    "category": "research",
+    "tags": ["ux-research", "study-plan", "product-research"],
+    "examples": ["Create a UX research plan for a dashboard redesign."]
+  },
+  {
+    "title": "Naming Ideas Workshop",
+    "description": "Generate strong product or feature names.",
+    "template": "Generate 20 naming ideas for {thing}. Group the names into styles such as descriptive, premium, playful, technical, and minimalist. For each name, explain the emotional impression and potential downside. The output should help a team compare options rather than just produce random words.",
+    "variables": [
+      { "name": "thing", "type": "string", "placeholder": "a prompt marketplace", "required": true }
+    ],
+    "category": "branding",
+    "tags": ["naming", "brand", "product-name"],
+    "examples": ["Generate naming ideas for an AI analytics dashboard."]
+  },
+  {
+    "title": "Tagline Explorer",
+    "description": "Create tagline options for marketing and branding.",
+    "template": "Write 15 tagline options for {brand}. Make the taglines short, memorable, and aligned with the brand personality: {personality}. Include a mix of benefit-driven, emotional, and category-defining options. After the taglines, briefly recommend the 3 strongest directions and why they stand out.",
+    "variables": [
+      { "name": "brand", "type": "string", "placeholder": "prompt library", "required": true },
+      { "name": "personality", "type": "string", "placeholder": "smart, modern, helpful", "required": true }
+    ],
+    "category": "branding",
+    "tags": ["tagline", "brand-message", "marketing"],
+    "examples": ["Write taglines for a productivity app with a calm, modern personality."]
+  },
+  {
+    "title": "Content Calendar Planner",
+    "description": "Build a practical content calendar.",
+    "template": "Create a 30-day content calendar for {brand}. Include content pillars, post ideas, platform suggestions, format recommendations, and a rough posting rhythm. Make sure the ideas support the goal of {goal}. Output the calendar in a way that is easy to turn into execution.",
+    "variables": [
+      { "name": "brand", "type": "string", "placeholder": "B2B SaaS startup", "required": true },
+      { "name": "goal", "type": "string", "placeholder": "build awareness", "required": true }
+    ],
+    "category": "content",
+    "tags": ["content-calendar", "social", "planning"],
+    "examples": ["Create a 30-day content calendar for a prompt library brand."]
+  },
+  {
+    "title": "SOP Generator",
+    "description": "Create a standard operating procedure.",
+    "template": "Write a standard operating procedure for {process}. Include purpose, prerequisites, step-by-step instructions, quality checks, common mistakes, and an owner/responsibility section. The SOP should be detailed enough that a new team member can follow it without extra help.",
+    "variables": [
+      { "name": "process", "type": "string", "placeholder": "publishing a prompt to the library", "required": true }
+    ],
+    "category": "operations",
+    "tags": ["sop", "process", "documentation"],
+    "examples": ["Write an SOP for handling customer support tickets."]
+  },
+  {
+    "title": "Changelog Entry Writer",
+    "description": "Write changelog text for a feature update.",
+    "template": "Write a changelog entry for the update: {update}. Include what changed, why it matters, and any user-facing impact. Make it concise but still informative. Use a tone that feels transparent and product-focused.",
+    "variables": [
+      { "name": "update", "type": "string", "placeholder": "new category filters and faster search", "required": true }
+    ],
+    "category": "product",
+    "tags": ["changelog", "release-notes", "updates"],
+    "examples": ["Write a changelog entry for saved prompt collections."]
+  },
+  {
+    "title": "Accessibility Audit Helper",
+    "description": "Identify accessibility issues and improvements.",
+    "template": "Review the following UI or content for accessibility issues: {content}. Check for clarity, keyboard/navigation considerations, contrast concerns, label issues, ambiguity, and language that may be hard to understand. Then provide a prioritized list of improvements with practical recommendations.",
+    "variables": [
+      { "name": "content", "type": "string", "placeholder": "paste UI text or component description", "required": true }
+    ],
+    "category": "ux",
+    "tags": ["accessibility", "audit", "ux"],
+    "examples": ["Review a signup form for accessibility issues."]
+  },
+  {
+    "title": "Investor Update Draft",
+    "description": "Write a concise startup investor update.",
+    "template": "Draft an investor update for {company}. Include wins, metrics, challenges, risks, next priorities, and specific asks if needed. Keep the tone confident and factual, not overly promotional. Structure it so investors can quickly scan the business situation and understand what changed since the last update.",
+    "variables": [
+      { "name": "company", "type": "string", "placeholder": "early-stage SaaS startup", "required": true }
+    ],
+    "category": "startup",
+    "tags": ["investor-update", "startup", "reporting"],
+    "examples": ["Draft an investor update for a seed-stage product company."]
+  },
+  {
+    "title": "Localization QA Checklist",
+    "description": "Check translated content for quality and consistency.",
+    "template": "Create a localization QA checklist for {language}. Focus on translation accuracy, UI fit, truncation risk, formatting, cultural nuance, dates, numbers, and consistency with brand tone. Include the most important things to verify before shipping a localized product release.",
+    "variables": [
+      { "name": "language", "type": "string", "placeholder": "Thai", "required": true }
+    ],
+    "category": "localization",
+    "tags": ["qa", "localization", "translation"],
+    "examples": ["Create a localization QA checklist for Japanese."]
+  },
+  {
+    "title": "Support Escalation Summary",
+    "description": "Summarize a support issue for internal escalation.",
+    "template": "Summarize this support case for escalation: {case}. Include user impact, urgency, troubleshooting already done, suspected cause, relevant product area, and a clear next action request. The summary should be brief but complete enough for engineering or product to act quickly.",
+    "variables": [
+      { "name": "case", "type": "string", "placeholder": "support ticket details", "required": true }
+    ],
+    "category": "support",
+    "tags": ["escalation", "support", "incident"],
+    "examples": ["Summarize this login issue for escalation to engineering."]
+  },
+  {
+    "title": "Community Announcement Writer",
+    "description": "Write a community or product announcement.",
+    "template": "Write a community announcement about {announcement}. The message should be warm, clear, and exciting, with a friendly tone that encourages engagement. Include what is new, why it matters, and a simple call to action inviting users to try it, respond, or share feedback.",
+    "variables": [
+      { "name": "announcement", "type": "string", "placeholder": "new prompt collections feature", "required": true }
+    ],
+    "category": "community",
+    "tags": ["announcement", "community", "engagement"],
+    "examples": ["Write a community announcement for a new prompt ranking system."]
+  },
+  {
+    "title": "FAQ Rewrite for Clarity",
+    "description": "Rewrite FAQ answers so they are clearer and more useful.",
+    "template": "Rewrite these FAQ items to be clearer, more specific, and more helpful: {faq}. Keep the answers concise but complete, remove vague wording, and make sure the final version sounds friendly and trustworthy. Preserve the meaning but improve readability and usefulness for end users.",
+    "variables": [
+      { "name": "faq", "type": "string", "placeholder": "paste FAQ content", "required": true }
+    ],
+    "category": "support",
+    "tags": ["faq", "rewrite", "clarity"],
+    "examples": ["Rewrite this FAQ about billing and cancellations."]
+  },
+  {
+    "title": "Feature Spec Review",
+    "description": "Critique or improve a feature specification.",
+    "template": "Review this feature spec for {feature}. Identify missing requirements, unclear assumptions, edge cases, user experience risks, and implementation gaps. Then rewrite the spec in a stronger format with clearer sections and better detail so it can be used more reliably by product and engineering teams.",
+    "variables": [
+      { "name": "feature", "type": "string", "placeholder": "saved prompt folders", "required": true }
+    ],
+    "category": "product",
+    "tags": ["feature-spec", "review", "requirements"],
+    "examples": ["Review this feature spec for prompt favorites and improve it."]
+  },
+  {
+    "title": "Design Critique Assistant",
+    "description": "Provide constructive feedback on a design concept.",
+    "template": "Critique the design concept for {screen_or_flow}. Evaluate clarity, hierarchy, usability, accessibility, consistency, and conversion impact. Then provide specific improvements that would make the design stronger. Keep the feedback constructive, practical, and specific enough that a designer could act on it immediately.",
+    "variables": [
+      { "name": "screen_or_flow", "type": "string", "placeholder": "prompt detail page", "required": true }
+    ],
+    "category": "ux",
+    "tags": ["design-review", "critique", "ux"],
+    "examples": ["Critique a signup flow and suggest improvements."]
+  },
+  {
+    "title": "Experiment Log Writer",
+    "description": "Document an experiment and learnings clearly.",
+    "template": "Create an experiment log for {experiment}. Include hypothesis, setup, target audience, success metric, observed results, conclusion, and next steps. The output should help a product team learn from the test and reuse the insight later.",
+    "variables": [
+      { "name": "experiment", "type": "string", "placeholder": "search ranking changes", "required": true }
+    ],
+    "category": "growth",
+    "tags": ["experiment", "growth", "learning"],
+    "examples": ["Create an experiment log for a new onboarding flow."]
+  },
+  {
+    "title": "Prompt Test Suite Builder",
+    "description": "Create a set of tests for evaluating prompt quality.",
+    "template": "Build a test suite for the prompt: {prompt}. Include at least 10 test cases covering normal inputs, edge cases, ambiguous inputs, missing variables, tone shifts, and output quality expectations. For each test case, explain what a good response should look like and what failure would indicate. Make it practical for validating prompt quality before publishing.",
+    "variables": [
+      { "name": "prompt", "type": "string", "placeholder": "write a blog outline about AI", "required": true }
+    ],
+    "category": "meta",
+    "tags": ["testing", "prompt-engineering", "evaluation"],
+    "examples": ["Build a test suite for a prompt that writes product descriptions."]
+  }
+]

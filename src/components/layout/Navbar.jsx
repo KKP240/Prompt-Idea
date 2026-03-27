@@ -1,8 +1,11 @@
 import { CirclePlus, House, Search } from 'lucide-react';
 import { Link } from 'react-router';
 import { SearchPrompt } from './SearchPrompt';
+import { useLanguage } from '@/lib/LanguageProvider';
 
 export default function Navbar() {
+  const { lang, setLang } = useLanguage();
+
   return (
     <header className="w-full border-b border-gray-300 shadow-sm">
       <nav className="max-w-275 mx-auto flex justify-between items-center p-6">
@@ -20,6 +23,25 @@ export default function Navbar() {
           >
             <House className="text-blue-500" />
           </Link>
+
+          {/* Language Toggle */}
+          <div className="flex items-center gap-2 px-2">
+            <button
+              onClick={() => setLang('en')}
+              className={`px-3 py-1 rounded-full text-sm transition ${lang === 'en' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-200'}`}
+              aria-label="Switch to English"
+            >
+              EN
+            </button>
+            <button
+              onClick={() => setLang('th')}
+              className={`px-3 py-1 rounded-full text-sm transition ${lang === 'th' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-200'}`}
+              aria-label="Switch to Thai"
+            >
+              TH
+            </button>
+          </div>
+
           <SearchPrompt />
           <Link
             to="/add"

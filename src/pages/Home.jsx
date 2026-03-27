@@ -1,6 +1,7 @@
 import { db } from '@/firebase/config';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '@/lib/LanguageProvider';
 import { useSearchParams } from 'react-router';
 
 import { Flame } from 'lucide-react';
@@ -24,6 +25,8 @@ export default function Home() {
   const selectedCategory = searchParams.get('category') || '';
   const currentPage = Number(searchParams.get('page')) || 1;
 
+  const { lang: useLang } = useLanguage();
+
   const filteredPrompts = selectedCategory
     ? prompts.filter((p) => p.category === selectedCategory)
     : prompts;
@@ -34,8 +37,10 @@ export default function Home() {
     const fetchPrompts = async () => {
       try {
         setIsLoaded(true);
-
-        const q = query(collection(db, 'prompts'), orderBy('metrics.likes', 'desc'));
+        const col = (useLang === undefined) ? 'prompts' : useLang;
+        // prefer full collection name mapping
+        const collectionName = (col === 'th' || col === 'prompts-th') ? 'prompts-th' : 'prompts';
+        const q = query(collection(db, collectionName), orderBy('metrics.likes', 'desc'));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -50,7 +55,7 @@ export default function Home() {
     };
 
     fetchPrompts();
-  }, []);
+  }, [useLang]);
 
   return (
     <div className="px-6 py-14">

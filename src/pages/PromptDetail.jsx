@@ -1,5 +1,6 @@
 import { db } from '../firebase/config';
 import { doc, getDoc, updateDoc, arrayUnion, increment } from 'firebase/firestore';
+import { useLanguage } from '@/lib/LanguageProvider';
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
@@ -8,6 +9,7 @@ import { toast } from 'sonner';
 export default function PromptDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { lang } = useLanguage();
 
   const [prompt, setPrompt] = useState(null);
   const [values, setValues] = useState({});
@@ -42,7 +44,8 @@ export default function PromptDetail() {
 
   useEffect(() => {
     const fetchPrompt = async () => {
-      const ref = doc(db, 'prompts', id);
+      const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
+      const ref = doc(db, collectionName, id);
       const snap = await getDoc(ref);
       if (snap.exists()) setPrompt({ id: snap.id, ...snap.data() });
     };
@@ -52,7 +55,8 @@ export default function PromptDetail() {
       const clientId = await getClientId();
       // check if already liked
       try {
-        const ref = doc(db, 'prompts', id);
+        const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
+        const ref = doc(db, collectionName, id);
         const s = await getDoc(ref);
         if (s.exists()) {
           const data = s.data();
@@ -65,7 +69,7 @@ export default function PromptDetail() {
     };
 
     init();
-  }, [id]);
+  }, [id, lang]);
 
   const generate = () => {
     if (!prompt) return '';
@@ -105,7 +109,8 @@ export default function PromptDetail() {
       setUseLoading(true);
       try {
         const clientId = await getClientId();
-        const ref = doc(db, 'prompts', id);
+        const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
+        const ref = doc(db, collectionName, id);
         // fetch latest to avoid surprises
         const s = await getDoc(ref);
         if (!s.exists()) return;
@@ -139,7 +144,8 @@ export default function PromptDetail() {
     setLikeLoading(true);
     try {
       const clientId = await getClientId();
-      const ref = doc(db, 'prompts', id);
+      const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
+      const ref = doc(db, collectionName, id);
       await updateDoc(ref, {
         likedBy: arrayUnion(clientId),
         'metrics.likes': increment(1),
