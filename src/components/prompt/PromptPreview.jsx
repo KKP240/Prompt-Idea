@@ -51,20 +51,31 @@ export default function PromptPreview({ prompt, setPrompt, generated, lang, id, 
     setUsed(true);
   }, [used, getClientId, lang, id, setPrompt])
 
-  const { execute: executeCopy, isLoading: copyLoading } = useMutation(copyLogic);
+  const { execute: executeCopy, isLoading: copyLoading, error: copyError } = useMutation(copyLogic);
 
   const copyMessage = async () => {
-    navigator.clipboard.writeText(generated);
+    try {
+      await navigator.clipboard.writeText(generated);
 
-    toast.success('Prompt copied to clipboard.', {
-      position: 'top-center',
-      style: {
-        color: 'oklch(62.3% 0.214 259.815)',
-      },
-    });
+      toast.success('Prompt copied to clipboard.', {
+        position: 'top-center',
+        style: {
+          color: 'oklch(62.3% 0.214 259.815)',
+        },
+      });
 
-    executeCopy()
+      executeCopy();
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      toast.error('ไม่สามารถคัดลอกข้อความได้ กรุณาตรวจสอบสิทธิ์ของเบราว์เซอร์', { position: 'top-center' });
+    }
   };
+
+  useEffect(() => {
+    if(!copyError.success)
+      toast.error(`${copyError.message} Please try again later.`, { position: 'top-center' });
+    
+  }, [copyError])
 
   // Operation: Like Prompt
   const likeLogic = useCallback(async function(){
@@ -87,7 +98,13 @@ export default function PromptPreview({ prompt, setPrompt, generated, lang, id, 
     setLiked(true);
   }, [liked, getClientId, lang, id, setPrompt])
 
-  const { execute: handleLike, isLoading: likeLoading } = useMutation(likeLogic);
+  const { execute: handleLike, isLoading: likeLoading, error: likeError } = useMutation(likeLogic);
+
+  useEffect(() => {
+    if(!likeError.success)
+      toast.error(`${likeError.message} Please try again later.`, { position: 'top-center' });
+
+  }, [likeError])
 
   return (
     <section className="bg-black text-white p-6 rounded-xl shadow-lg">

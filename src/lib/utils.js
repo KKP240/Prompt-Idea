@@ -8,7 +8,14 @@ export function cn(...inputs) {
 // Format
 export const formattedDateToReadable = function (ts) {
   try {
-    return ts?.toDate ? ts.toDate().toLocaleString('en-Us') : String(ts || '');
+    return ts?.toDate
+      ? ts.toDate().toLocaleString('en-Us', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : String(ts || '');
   } catch {
     return String(ts || '');
   }
