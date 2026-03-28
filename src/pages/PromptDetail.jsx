@@ -2,8 +2,9 @@ import { db } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import { getClientId } from '@/lib/utils';
 import { useLanguage } from '@/lib/LanguageProvider';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { useAsync } from '@/hooks/useAsync';
 
 import Loading from '@/components/common/Loading';
 import BasicBreadcrumb from '@/components/common/BasicBreadcrumb';
@@ -12,29 +13,36 @@ import Paragraph from '@/components/typography/Paragraph';
 import PromptCustomize from '@/components/prompt/PromptCustomize';
 import PromptPreview from '@/components/prompt/PromptPreview';
 import PromptGeneralInfo from '@/components/prompt/PromptGeneralInfo';
+import ErrorMessage from '@/components/common/ErrorMessage';
 
 export default function PromptDetail() {
   const { id } = useParams();
   const { lang } = useLanguage();
 
-  const [prompt, setPrompt] = useState(null);
   const [values, setValues] = useState({});
-
   const [generated, setGenerated] = useState('');
 
+  // Fetch Prompts
+  const fetchPrompt = useCallback(async function() {
+    const collectionName = lang === 'th' ? 'prompts-th' : 'prompts';
+    const ref = doc(db, collectionName, id);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) return { id: snap.id, ...snap.data() }
+
+    throw new Error('ไม่พบข้อมูล Prompt นี้')
+  }, [lang, id]);
+
+  const { data: prompt, setData: setPrompt, isLoaded, error, execute } = useAsync(fetchPrompt)
+
   useEffect(() => {
-    const fetchPrompt = async () => {
-      const collectionName = lang === 'th' ? 'prompts-th' : 'prompts';
-      const ref = doc(db, collectionName, id);
-      const snap = await getDoc(ref);
-      if (snap.exists()) setPrompt({ id: snap.id, ...snap.data() });
-    };
+    execute()
+  }, [execute])
 
-    fetchPrompt();
-  }, [id, lang]);
-
-  const generate = () => {
+  // Generate Text
+  const generate = function() {
     if (!prompt) return '';
+
     let text = prompt.template || '';
     const vars = prompt.variables || [];
 
@@ -47,11 +55,14 @@ export default function PromptDetail() {
     return text;
   };
 
+  // Regenerate when dependency array change (values, prompt)
   useEffect(() => {
     setGenerated(generate());
   }, [values, prompt]);
 
-  if (!prompt) return <Loading />;
+  // Loading or Error
+  if (!isLoaded) return <Loading />;
+  if (!error.success) return <ErrorMessage message={error.message} className='mt-14 mx-6' />;
 
   return (
     <div className="px-6 py-14">

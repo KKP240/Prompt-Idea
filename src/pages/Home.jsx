@@ -1,8 +1,9 @@
 import { db } from '@/firebase/config';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useLanguage } from '@/lib/LanguageProvider';
 import { useSearchParams } from 'react-router';
+import { useAsync } from '@/hooks/useAsync';
 
 import { Flame } from 'lucide-react';
 import Loading from '@/components/common/Loading';
@@ -17,16 +18,31 @@ import SortSelect from '@/components/home/SortSelect';
 const PAGE_SIZE = 12;
 
 export default function Home() {
-  const [prompts, setPrompts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState({ success: true, message: '' });
-
   // Config Page
   const [searchParams] = useSearchParams();
   const selectedCategory = searchParams.get('category') || '';
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const { lang: useLang } = useLanguage();
+
+  // Fetch Prompts
+  const fetchPrompts = useCallback(async () => {
+      const col = (useLang === undefined) ? 'prompts' : useLang;
+      const collectionName = (col === 'th' || col === 'prompts-th') ? 'prompts-th' : 'prompts';
+      const q = query(collection(db, collectionName), orderBy('metrics.likes', 'desc'));
+
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  }, [useLang]);
+
+  const { data: prompts, isLoaded, error, execute } = useAsync(fetchPrompts, [])
+
+  useEffect(() => {
+    execute()
+  }, [execute]);
 
   // Computed Final Prompts
   const filteredPrompts = selectedCategory
@@ -41,31 +57,6 @@ export default function Home() {
     if (selectedSort === 'alpha') return String(a.title || '').localeCompare(String(b.title || ''), undefined, { sensitivity: 'base' });
     return 0;
   });
-
-  // Fetch Prompts
-  useEffect(() => {
-    const fetchPrompts = async () => {
-      try {
-        setIsLoaded(true);
-        const col = (useLang === undefined) ? 'prompts' : useLang;
-        // prefer full collection name mapping
-        const collectionName = (col === 'th' || col === 'prompts-th') ? 'prompts-th' : 'prompts';
-        const q = query(collection(db, collectionName), orderBy('metrics.likes', 'desc'));
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPrompts(data);
-      } catch (err) {
-        setError({ success: false, message: err.message });
-      } finally {
-        setIsLoaded(false);
-      }
-    };
-
-    fetchPrompts();
-  }, [useLang]);
 
   return (
     <div className="px-6 py-14">
@@ -97,13 +88,13 @@ export default function Home() {
       )()}
 
       {/* Prompts Loading */}
-      {isLoaded && <Loading />}
+      {!isLoaded && <Loading />}
 
       {/* Error Fetching Prompts */}
-      {!isLoaded && !error.success && <ErrorMessage message={error.message} />}
+      {isLoaded && !error.success && <ErrorMessage message={error.message} />}
 
       {/* Render Prompts */}
-      {error.success && !isLoaded && (
+      {error.success && isLoaded && (
         <>
           <div className="grid md:grid-cols-2 gap-6 mb-15 mt-6">
             {sortedPrompts.length > 0 ? (

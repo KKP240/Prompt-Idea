@@ -15,8 +15,8 @@ export default function PromptCustomize({ prompt, values, setValues }) {
           const name = varObj?.name || '';
           const placeholder = varObj?.placeholder || name;
           const type = varObj?.type || 'text';
-          
-          const inputType = type === 'string' ? 'text' : type; 
+
+          const inputType = type === 'string' ? 'text' : type;
 
           return (
             <Field key={name}>
@@ -35,7 +35,7 @@ export default function PromptCustomize({ prompt, values, setValues }) {
                   }))
                 }
                 placeholder={placeholder}
-                required={!!varObj?.required} 
+                required={!!varObj?.required}
               />
             </Field>
           );
