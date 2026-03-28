@@ -74,7 +74,7 @@ export default function PromptPreview({ prompt, setPrompt, generated, lang, id, 
   useEffect(() => {
     if(!copyError.success)
       toast.error(`${copyError.message} Please try again later.`, { position: 'top-center' });
-    
+
   }, [copyError])
 
   // Operation: Like Prompt
@@ -114,17 +114,17 @@ export default function PromptPreview({ prompt, setPrompt, generated, lang, id, 
           <Button
             onClick={copyMessage}
             disabled={copyLoading}
-            className=" bg-transparent hover:bg-gray-800 border border-blue-500 text-blue-500 font-semibold px-3 py-1 rounded-full hover:border-blue-600 flex items-center gap-1"
+            className=" bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded-full flex items-center gap-1"
           >
-            <Copy className="text-blue-500" />
+            <Copy className="text-white" />
             {copyLoading ? 'Copy...' : 'Copy'}
           </Button>
           <Button
             onClick={handleLike}
             disabled={liked || likeLoading}
-            className={`px-3 py-1 rounded-full flex items-center gap-1 ${liked ? 'bg-blue-600' : 'bg-blue-500 hover:bg-blue-600'}`}
+            className={`px-3 py-1 rounded-full flex items-center gap-1 bg-transparent hover:bg-gray-800 border border-blue-500`}
           >
-            <Heart className="text-white" />
+            <Heart className={`text-blue-500 ${liked ? 'fill-blue-500' : ''}`} />
             {prompt.metrics?.likes ?? 0}
           </Button>
         </div>
