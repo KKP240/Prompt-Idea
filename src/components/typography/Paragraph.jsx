@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 export default function Paragraph({ className, children }){
   return (
     <p className={cn(
-      'text-sm font-light text-gray-500 leading-7', 
+      'text-sm text-gray-500 leading-7', 
       className
     )}>
       {children}
