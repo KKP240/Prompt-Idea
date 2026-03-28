@@ -4,7 +4,7 @@ import { getClientId } from '@/lib/utils';
 import { useLanguage } from '@/lib/LanguageProvider';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { useAsync } from '@/hooks/useAsync';
+import { useQuery } from '@/hooks/useQuery';
 
 import Loading from '@/components/common/Loading';
 import BasicBreadcrumb from '@/components/common/BasicBreadcrumb';
@@ -33,7 +33,7 @@ export default function PromptDetail() {
     throw new Error('ไม่พบข้อมูล Prompt นี้')
   }, [lang, id]);
 
-  const { data: prompt, setData: setPrompt, isLoaded, error, execute } = useAsync(fetchPrompt)
+  const { data: prompt, setData: setPrompt, isLoading, error, execute } = useQuery(fetchPrompt)
 
   useEffect(() => {
     execute()
@@ -60,57 +60,63 @@ export default function PromptDetail() {
     setGenerated(generate());
   }, [values, prompt]);
 
-  // Loading or Error
-  if (!isLoaded) return <Loading />;
-  if (!error.success) return <ErrorMessage message={error.message} className='mt-14 mx-6' />;
-
   return (
     <div className="px-6 py-14">
-      {/* Breadcrumb */}
-      <BasicBreadcrumb
-        className='mb-6'
-        linkItems={[
-          { path: '/', label: 'Home' },
-          { path: '', label: prompt.title },
-        ]}
-      />
+      {/* Loading */}
+      {isLoading && <Loading />}
 
-      {/* Header */}
-      <div className="mb-10 flex flex-col gap-2">
-        <Heading>{prompt.title}</Heading>
-        <Paragraph>
-          {prompt.description || prompt.category}
-        </Paragraph>
-        <Paragraph className="text-black">
-          By {prompt.author?.name || 'Unknown'} • {prompt.category} •{' '}
-          {prompt.model} • {prompt.language}
-        </Paragraph>
-      </div>
+      {/* Error Occurred */}
+      {!isLoading && !error.success && <ErrorMessage message={error.message} />}
 
-      <div className="flex flex-col gap-8">
-        {/* Customize */}
-        <PromptCustomize
-          prompt={prompt} 
-          values={values} 
-          setValues={setValues} 
-        />
+      {!isLoading && error.success && prompt && (
+        <>
+          {/* Breadcrumb */}
+          <BasicBreadcrumb
+            className='mb-6'
+            linkItems={[
+              { path: '/', label: 'Home' },
+              { path: '', label: prompt.title },
+            ]}
+          />
 
-        {/* Preview */}
-        <PromptPreview
-          generated={generated}
-          prompt={prompt}
-          setPrompt={setPrompt}
-          lang={lang}
-          id={id}
-          getClientId={getClientId}
-        />
+          {/* Header */}
+          <div className="mb-10 flex flex-col gap-2">
+            <Heading>{prompt.title}</Heading>
+            <Paragraph>
+              {prompt.description || prompt.category}
+            </Paragraph>
+            <Paragraph className="text-black">
+              By {prompt.author?.name || 'Unknown'} • {prompt.category} •{' '}
+              {prompt.model} • {prompt.language}
+            </Paragraph>
+          </div>
 
-        {/* General Info */}
-        <PromptGeneralInfo prompts={prompt} />
-      </div>
+          <div className="flex flex-col gap-8">
+            {/* Customize */}
+            <PromptCustomize
+              prompt={prompt} 
+              values={values} 
+              setValues={setValues} 
+            />
 
-      {/* Additional Info */}
-      <Paragraph className="mt-4">Rendered prompt updates as you type.</Paragraph>
+            {/* Preview */}
+            <PromptPreview
+              generated={generated}
+              prompt={prompt}
+              setPrompt={setPrompt}
+              lang={lang}
+              id={id}
+              getClientId={getClientId}
+            />
+
+            {/* General Info */}
+            <PromptGeneralInfo prompts={prompt} />
+          </div>
+
+          {/* Additional Info */}
+          <Paragraph className="mt-4">Rendered prompt updates as you type.</Paragraph>
+        </>
+      )}
     </div>
   );
 }

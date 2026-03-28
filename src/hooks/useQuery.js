@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react';
 
-export function useAsync(asyncFunction, defaultData = null) {
+export function useQuery(asyncFunction, defaultData = null) {
   const [data, setData] = useState(defaultData); 
-  const [isLoaded, setIsLoaded] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false); 
   const [error, setError] = useState({ success: true, message: '' });
 
   const execute = useCallback(async () => {
-    setIsLoaded(false);
+    setIsLoading(true);
     setError({ success: true, message: '' });
 
     try {
@@ -15,9 +15,9 @@ export function useAsync(asyncFunction, defaultData = null) {
     } catch (err) {
       setError({ success: false, message: err.message || 'Something went wrong.' });
     } finally {
-      setIsLoaded(true);
+      setIsLoading(false);
     }
   }, [asyncFunction]);
 
-  return { data, setData, isLoaded, error, execute };
+  return { data, setData, isLoading, error, execute };
 }

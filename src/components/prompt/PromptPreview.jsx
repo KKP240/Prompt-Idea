@@ -1,25 +1,57 @@
 import { db } from '@/firebase/config';
 import { doc, getDoc, updateDoc, arrayUnion, increment } from 'firebase/firestore'; 
 import { toast } from 'sonner';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import Heading from '../typography/Heading';
 import { Button } from '../ui/button';
 import { Copy, Heart } from 'lucide-react';
+import { useMutation } from '@/hooks/useMutation';
 
 export default function PromptPreview({ prompt, setPrompt, generated, lang, id, getClientId }) {
   const [liked, setLiked] = useState(false);
-  const [likeLoading, setLikeLoading] = useState(false);
   const [used, setUsed] = useState(false);
-  const [useLoading, setUseLoading] = useState(false);
 
+  // Check Status Like and Copy
   useEffect(() => {
     if (!prompt) return;
+
     getClientId().then((clientId) => {
       if (prompt.likedBy?.includes(clientId)) setLiked(true);
       if (prompt.usedBy?.includes(clientId)) setUsed(true);
     });
   }, [prompt, getClientId]);
+
+  // Operation: Copy Message
+  const copyLogic = useCallback(async function(){
+    if (used) return;
+
+    const clientId = await getClientId();
+    const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
+    const ref = doc(db, collectionName, id);
+    
+    const s = await getDoc(ref);
+    if (!s.exists()) return;
+
+    const data = s.data();
+    const already = (data.usedBy || []).includes(clientId);
+    
+    if (!already) {
+      await updateDoc(ref, {
+        usedBy: arrayUnion(clientId),
+        'metrics.uses': increment(1),
+      });
+
+      setPrompt((p) => ({
+        ...p,
+        usedBy: [...(p.usedBy || []), clientId],
+        metrics: { ...(p.metrics || {}), uses: (p.metrics?.uses || 0) + 1 },
+      }));
+    }
+    setUsed(true);
+  }, [used, getClientId, lang, id, setPrompt])
+
+  const { execute: executeCopy, isLoading: copyLoading } = useMutation(copyLogic);
 
   const copyMessage = async () => {
     navigator.clipboard.writeText(generated);
@@ -31,64 +63,31 @@ export default function PromptPreview({ prompt, setPrompt, generated, lang, id, 
       },
     });
 
-    if (useLoading || used) return;
-    setUseLoading(true);
+    executeCopy()
+  };
+
+  // Operation: Like Prompt
+  const likeLogic = useCallback(async function(){
+    if(liked) return
+
+    const clientId = await getClientId();
+    const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
+    const ref = doc(db, collectionName, id);
     
-    try {
-      const clientId = await getClientId();
-      const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
-      const ref = doc(db, collectionName, id);
-      
-      const s = await getDoc(ref);
-      if (!s.exists()) return;
-      const data = s.data();
-      const already = (data.usedBy || []).includes(clientId);
-      
-      if (!already) {
-        await updateDoc(ref, {
-          usedBy: arrayUnion(clientId),
-          'metrics.uses': increment(1),
-        });
+    await updateDoc(ref, {
+      likedBy: arrayUnion(clientId),
+      'metrics.likes': increment(1),
+    });
 
-        setPrompt((p) => ({
-          ...p,
-          usedBy: [...(p.usedBy || []), clientId],
-          metrics: { ...(p.metrics || {}), uses: (p.metrics?.uses || 0) + 1 },
-        }));
-      }
-      setUsed(true);
-    } catch (e) {
-      console.error('Use registration error', e);
-    } finally {
-      setUseLoading(false);
-    }
-  };
+    setPrompt((p) => ({
+      ...p,
+      likedBy: [...(p.likedBy || []), clientId],
+      metrics: { ...(p.metrics || {}), likes: (p.metrics?.likes || 0) + 1 },
+    }));
+    setLiked(true);
+  }, [liked, getClientId, lang, id, setPrompt])
 
-  const handleLike = async () => {
-    if (liked || likeLoading) return;
-    setLikeLoading(true);
-    try {
-      const clientId = await getClientId();
-      const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts';
-      const ref = doc(db, collectionName, id);
-      
-      await updateDoc(ref, {
-        likedBy: arrayUnion(clientId),
-        'metrics.likes': increment(1),
-      });
-
-      setPrompt((p) => ({
-        ...p,
-        likedBy: [...(p.likedBy || []), clientId],
-        metrics: { ...(p.metrics || {}), likes: (p.metrics?.likes || 0) + 1 },
-      }));
-      setLiked(true);
-    } catch (e) {
-      console.error('Like error', e);
-    } finally {
-      setLikeLoading(false);
-    }
-  };
+  const { execute: handleLike, isLoading: likeLoading } = useMutation(likeLogic);
 
   return (
     <section className="bg-black text-white p-6 rounded-xl shadow-lg">
@@ -97,10 +96,11 @@ export default function PromptPreview({ prompt, setPrompt, generated, lang, id, 
         <div className="flex items-center gap-2">
           <Button
             onClick={copyMessage}
+            disabled={copyLoading}
             className=" bg-transparent hover:bg-gray-800 border border-blue-500 text-blue-500 font-semibold px-3 py-1 rounded-full hover:border-blue-600 flex items-center gap-1"
           >
             <Copy className="text-blue-500" />
-            Copy
+            {copyLoading ? 'Copy...' : 'Copy'}
           </Button>
           <Button
             onClick={handleLike}

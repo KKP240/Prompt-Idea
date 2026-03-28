@@ -3,7 +3,7 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { useCallback, useEffect } from 'react';
 import { useLanguage } from '@/lib/LanguageProvider';
 import { useSearchParams } from 'react-router';
-import { useAsync } from '@/hooks/useAsync';
+import { useQuery } from '@/hooks/useQuery';
 
 import { Flame } from 'lucide-react';
 import Loading from '@/components/common/Loading';
@@ -38,7 +38,7 @@ export default function Home() {
       }));
   }, [useLang]);
 
-  const { data: prompts, isLoaded, error, execute } = useAsync(fetchPrompts, [])
+  const { data: prompts, isLoading, error, execute } = useQuery(fetchPrompts, [])
 
   useEffect(() => {
     execute()
@@ -88,13 +88,13 @@ export default function Home() {
       )()}
 
       {/* Prompts Loading */}
-      {!isLoaded && <Loading />}
+      {isLoading && <Loading />}
 
       {/* Error Fetching Prompts */}
-      {isLoaded && !error.success && <ErrorMessage message={error.message} />}
+      {!isLoading && !error.success && <ErrorMessage message={error.message} />}
 
       {/* Render Prompts */}
-      {error.success && isLoaded && (
+      {error.success && !isLoading && (
         <>
           <div className="grid md:grid-cols-2 gap-6 mb-15 mt-6">
             {sortedPrompts.length > 0 ? (
