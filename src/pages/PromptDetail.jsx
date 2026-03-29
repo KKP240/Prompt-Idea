@@ -80,7 +80,7 @@ export default function PromptDetail() {
           />
 
           {/* Header */}
-          <div className="mb-10 flex flex-col gap-2">
+          <div className="mb-8 flex flex-col gap-2">
             <Heading>{prompt.title}</Heading>
             <Paragraph>
               {prompt.description || prompt.category}

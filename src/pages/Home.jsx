@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <div className="px-6 py-14">
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between">
         <Heading className="flex items-center gap-2">
           <Flame className="size-8" />
           Popular Prompts

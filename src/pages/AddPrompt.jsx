@@ -132,7 +132,7 @@ export default function AddPrompt() {
 
   return (
     <div className="py-14 px-6">
-      <Heading className="mb-10">Add Prompt</Heading>
+      <Heading className="mb-8">Add Prompt</Heading>
       <form action={formAction} className="flex flex-col gap-10">
         {/* Basic Information */}
         <PromptBasicFieldSet formData={formData} handleInputChange={handleInputChange} errors={formState?.fieldErrors} />

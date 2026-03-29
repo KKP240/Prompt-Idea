@@ -32,7 +32,7 @@ export default function PromptVariablesFieldSet({ variables, addVariableRow, upd
         {variables.map((v, idx) => (
           <div
             key={idx}
-            className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center p-3 bg-gray-50 border rounded-lg"
+            className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center p-3 bg-white border rounded-lg"
           >
             {/* Field Name */}
             <div className="md:col-span-3">
