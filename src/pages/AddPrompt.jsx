@@ -1,28 +1,20 @@
-import { useState } from "react";
 import { db } from "../firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useActionState, useState } from "react";
 import { useNavigate } from "react-router";
 import { useLanguage } from '@/lib/LanguageProvider';
 
-export default function AddPrompt() {
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
-  const [template, setTemplate] = useState("");
-  const [category, setCategory] = useState("");
-  const [tags, setTags] = useState("");
-  const [examples, setExamples] = useState("");
-  const [model, setModel] = useState("gpt-4");
-  const [language, setLanguage] = useState("en");
-  const [visibility, setVisibility] = useState("public");
-  const [status, setStatus] = useState("published");
-  const [featured, setFeatured] = useState(false);
-  const [version, setVersion] = useState("1.0");
-  const [authorId, setAuthorId] = useState("");
-  const [authorName, setAuthorName] = useState("");
-  const [metaSource, setMetaSource] = useState("");
-  const [metaLicense, setMetaLicense] = useState("");
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
+import Heading from "@/components/typography/Heading";
+import ErrorMessage from "@/components/common/ErrorMessage";
+import PromptBasicFieldSet from "@/components/prompt/PromptBasicFieldSet";
+import PromptVariablesFieldSet from "@/components/prompt/PromptVariablesFieldSet";
+import PromptMetaDataFieldSet from "@/components/prompt/PromptMetaDataFieldSet";
+import PromptSettingFieldSet from "@/components/prompt/PromptSettingFieldSet";
 
+export default function AddPrompt() {
   const [variables, setVariables] = useState([
     { name: "length", type: "string", placeholder: "short|medium|long", required: true },
   ]);
@@ -30,6 +22,34 @@ export default function AddPrompt() {
   const navigate = useNavigate();
   const { lang } = useLanguage();
 
+  // Form Data
+  const [formData, setFormData] = useState({
+    title: '',
+    slug: '',
+    description: '',
+    template: '',
+    examples: '',
+    category: '',
+    tags: '',
+    model: 'gpt-4',
+    language: 'en',
+    featured: false,
+    version: '1.0',
+    authorId: '',
+    authorName: '',
+    metaSource: '',
+    metaLicense: '',
+  })
+
+  const handleInputChange = function(e){
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleCheckedChange = function(name, value){
+    setFormData({ ...formData, [name]: value })
+  }
+
+  // Operation: Variable Row
   const addVariableRow = () => {
     setVariables((v) => [...v, { name: "", type: "string", placeholder: "", required: false }]);
   };
@@ -42,130 +62,114 @@ export default function AddPrompt() {
     setVariables((v) => v.filter((_, i) => i !== idx));
   };
 
-  const handleSubmit = async () => {
+  // Add Prompt
+  const handleSubmit = async function(prevState, nativeFormData) {
+    // Validation
+    const errors = {};
+
+    // Basic Field
+    if (!formData.title.trim()) errors.title = "Title is required.";
+    if (!formData.description.trim()) errors.description = "Description is required.";
+    if (!formData.template.trim()) errors.template = "Template is required.";
+
+    // Classification Field
+    if (!formData.category.trim()) errors.category = "Category is required.";
+    if (!formData.model.trim()) errors.model = "Model is required.";
+    if (!formData.language.trim()) errors.language = "Language is required.";
+
+    // Variables Field
+    const hasInvalidVariable = variables.some(v => !v.name.trim() || !v.type.trim());
+    if (hasInvalidVariable) {
+      errors.variables = "All variables must have both Name and Type.";
+    }
+
+    // Return Error
+    if (Object.keys(errors).length > 0) {
+      return { 
+        success: false, 
+        error: "Please fill in all required fields correctly.", 
+        fieldErrors: errors 
+      };
+    }
+
+    // Save in DB
     try {
-        const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts'
-        await addDoc(collection(db, collectionName), {
-        title,
-        slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
-        description,
-        template,
+      const collectionName = (lang === 'th') ? 'prompts-th' : 'prompts'
+      
+      await addDoc(collection(db, collectionName), {
+        title: formData.title,
+        slug: formData.slug || formData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+        description: formData.description,
+        template: formData.template,
         variables,
-        category,
-        tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
-        author: { id: authorId || "user_anon", name: authorName || "Anonymous" },
-        examples: examples.split("\n").map((e) => e.trim()).filter(Boolean),
-        model,
-        language,
-        visibility,
-        status,
+        category: formData.category,
+        tags: formData.tags ? formData.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+        author: { id: formData.authorId || "user_anon", name: formData.authorName || "Anonymous" },
+        examples: formData.examples ? formData.examples.split("\n").map((e) => e.trim()).filter(Boolean) : [],
+        model: formData.model,
+        language: formData.language,
+        visibility: 'public',
+        status: 'published',
         metrics: { likes: 0, uses: 0, rating: 0 },
         likedBy: [],
         usedBy: [],
-        featured,
-        version,
+        featured: formData.featured,
+        version: formData.version,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-        meta: { source: metaSource || "internal", license: metaLicense || null },
+        meta: { source: formData.metaSource || "internal", license: formData.metaLicense || null },
       });
 
       navigate("/");
+      return { success: true, error: null };
     } catch (error) {
       console.error("Error adding document:", error);
+      return { success: false, error: `${error.message}. Please try again.` };
     }
   };
 
+  const [formState, formAction, isPending] = useActionState(handleSubmit, { success: true, error: null, fieldErrors: {} });
+
   return (
-    <div className="max-w-3xl mx-auto px-6 py-8">
-      <div className="bg-white p-6 rounded-2xl shadow">
-        <h1 className="text-2xl font-bold mb-4">➕ Add Prompt</h1>
+    <div className="py-14 px-6">
+      <Heading className="mb-10">Add Prompt</Heading>
+      <form action={formAction} className="flex flex-col gap-10">
+        {/* Basic Information */}
+        <PromptBasicFieldSet formData={formData} handleInputChange={handleInputChange} errors={formState?.fieldErrors} />
+        <Separator />
 
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Title</span>
-          <input value={title} onChange={e => setTitle(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="Title" />
-        </label>
+        {/* Variables */}
+        <PromptVariablesFieldSet variables={variables} addVariableRow={addVariableRow} updateVariable={updateVariable} removeVariable={removeVariable} errors={formState?.fieldErrors} />
+        <Separator />
 
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Slug (optional)</span>
-          <input value={slug} onChange={e => setSlug(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="product-description-concise" />
-        </label>
+        {/* Classification & Metadata */}
+        <PromptMetaDataFieldSet formData={formData} handleInputChange={handleInputChange} errors={formState?.fieldErrors} />
+        <Separator />
 
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Description</span>
-          <input value={description} onChange={e => setDescription(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="Short description" />
-        </label>
+        {/* Settings */}
+        <PromptSettingFieldSet featured={formData.featured} handleCheckedChange={handleCheckedChange} />
 
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Template</span>
-          <textarea value={template} onChange={e => setTemplate(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="Write a {length} product description for a {product}..." />
-        </label>
+        {/* Error Occured */}
+        {formState?.error && (
+          <ErrorMessage message={formState?.error} />
+        )}
 
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-600">Variables</span>
-            <button type="button" onClick={addVariableRow} className="text-sm text-indigo-600">+ Add</button>
-          </div>
-
-          <div className="space-y-2">
-            {variables.map((v, idx) => (
-              <div key={idx} className="grid grid-cols-12 gap-2 items-center">
-                <input value={v.name} onChange={e => updateVariable(idx, 'name', e.target.value)} placeholder="name" className="col-span-4 border px-2 py-1 rounded" />
-                <input value={v.type} onChange={e => updateVariable(idx, 'type', e.target.value)} placeholder="type" className="col-span-3 border px-2 py-1 rounded" />
-                <input value={v.placeholder} onChange={e => updateVariable(idx, 'placeholder', e.target.value)} placeholder="placeholder" className="col-span-4 border px-2 py-1 rounded" />
-                <button type="button" onClick={() => removeVariable(idx)} className="col-span-1 text-red-500">✕</button>
-                <label className="col-span-12 inline-flex items-center gap-2 text-xs text-gray-500"><input type="checkbox" checked={v.required} onChange={e => updateVariable(idx, 'required', e.target.checked)} /> required</label>
-              </div>
-            ))}
-          </div>
+        {/* Actions */}
+        <div className="flex gap-4 items-center pt-6 self-start">
+          <Button type="submit" className="flex-1 flex items-center gap-1" disabled={isPending}>
+            {isPending && (
+              <>
+                <Spinner />
+                Saving...
+              </>
+            )}
+            {!isPending && 'Save Prompt'}
+          </Button>
+          <Button type="button" variant="outline" onClick={() => navigate(-1)} disabled={isPending}>
+            Cancel
+          </Button>
         </div>
-
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Category</span>
-          <input value={category} onChange={e => setCategory(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="marketing" />
-        </label>
-
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Tags (comma separated)</span>
-          <input value={tags} onChange={e => setTags(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="product,marketing,ecommerce" />
-        </label>
-
-        <label className="block mb-3">
-          <span className="text-sm text-gray-600">Examples (one per line)</span>
-          <textarea value={examples} onChange={e => setExamples(e.target.value)} className="w-full border-gray-200 border px-3 py-2 rounded mt-1" placeholder="Short: EcoBrush — Clean teeth, kinder planet." />
-        </label>
-
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <input value={model} onChange={e => setModel(e.target.value)} placeholder="model" className="border px-2 py-1 rounded" />
-          <input value={language} onChange={e => setLanguage(e.target.value)} placeholder="language" className="border px-2 py-1 rounded" />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <input value={authorId} onChange={e => setAuthorId(e.target.value)} placeholder="author id" className="border px-2 py-1 rounded" />
-          <input value={authorName} onChange={e => setAuthorName(e.target.value)} placeholder="author name" className="border px-2 py-1 rounded" />
-        </div>
-
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <input value={metaSource} onChange={e => setMetaSource(e.target.value)} placeholder="meta source" className="border px-2 py-1 rounded" />
-          <input value={metaLicense} onChange={e => setMetaLicense(e.target.value)} placeholder="meta license" className="border px-2 py-1 rounded" />
-          <input value={version} onChange={e => setVersion(e.target.value)} placeholder="version" className="border px-2 py-1 rounded" />
-        </div>
-
-        <label className="inline-flex items-center gap-2 mb-4">
-          <input type="checkbox" checked={featured} onChange={e => setFeatured(e.target.checked)} />
-          <span className="text-sm text-gray-600">Featured</span>
-        </label>
-
-        <div className="flex gap-2">
-          <button
-            onClick={handleSubmit}
-            className="flex-1 bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
-          >
-            Save Prompt
-          </button>
-
-          <button type="button" onClick={() => navigate(-1)} className="px-4 py-2 border rounded">Cancel</button>
-        </div>
-      </div>
+      </form>
     </div>
   );
 }
