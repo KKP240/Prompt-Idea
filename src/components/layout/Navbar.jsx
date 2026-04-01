@@ -15,7 +15,7 @@ export default function Navbar() {
         <div className="max-w-275 mx-auto w-full flex justify-between items-center px-6 py-4">
           {/* Logo */}
           <Heading level='3' className="text-blue-500">
-            <Link to="/">PromptCraft</Link>
+            <Link to="/">Prompt Idea</Link>
           </Heading>
 
           {/* Language Toggle */}
