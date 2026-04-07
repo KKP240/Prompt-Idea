@@ -1,16 +1,56 @@
-# React + Vite
+# Prompt Idea
+![Project Banner](https://github.com/user-attachments/assets/f5c381d4-4b15-4afe-87a0-508307c47325)
+> **Web Application สำหรับค้นหารวบรวม prompt ต่างๆ** ช่วยให้คุณสามารถสำรวจ prompt จากหลายๆผู้ใช้งานได้
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase&logoColor=white)
 
-Currently, two official plugins are available:
+🔗 **Live Demo:** -
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features (คุณสมบัติเด่น)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- View Prompt
+- Search & Filter prompt
+- Create Prompt
+- Copy & Like prompt
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation & Setup
+**สิ่งที่ต้องมีก่อนเริ่ม:**
+1. Vs Code
+2. Node.js
+
+### การติดตั้ง
+1. Clone โปรเจคลงเครื่อง Local
+
+```bash
+git clone https://github.com/KKP240/Prompt-Idea.git
+
+```
+
+2. ติดตั้ง Dependencies ลงในโปรเจคทั้งหมด
+
+```bash
+npm install
+
+```
+
+3. Start Development Server
+
+```bash
+npm run dev
+
+```
+
+---
+
+## ติดต่อผู้พัฒนา
+หากมีคำถามเกี่ยวกับการพัฒนาโปรเจคหรือการใช้งาน สามารถติดต่อได้ที่:
+- Email:
+  - 66070080@kmitl.ac.th
+  - 66070240@kmitl.ac.th 
